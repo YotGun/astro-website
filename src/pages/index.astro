@@ -5,28 +5,47 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<main>
-		<h1>Regan Ng</h1>
+		<h1>BSc. Computing Science<br>
+			Minor in Mathematics
+		</h1>
+		<a href="https://www.ualberta.ca/en/index.html" target="_blank" class="uni">
+			<h2>University of Alberta | 2023 - 2027
+			</h2>
+		</a>
 	</main>
 </Layout>
 
 <style>
 	main {
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		flex-direction: column;
+		justify-content: left;
 		min-height: 100dvh;
-		padding: 1.5rem;
+		padding: 10vw;
 		overscroll-behavior-y: none;
-		background: #0d1417;
-		background: linear-gradient(135deg, rgba(13, 20, 23, 1) 0%, rgba(148, 0, 91, 1) 50%, rgba(150, 0, 0, 1) 100%);
-}
-	h1 {
-		margin: 0;
-		font-family: 'Arial Black';
+		background: var(--bg)
+	}
+
+	main > h1 {
+		font-family: 'JetBrains Mono', monospace;
 		font-style: italic;
-		font-size: clamp(15rem, 6vw, 25rem);
+		font-size: 4vw;
 		font-weight: 400;
 		letter-spacing: -0.02em;
 		color: var(--text);
+	}
+
+	.uni {
+		font-family: 'JetBrains Mono Thin', monospace;
+		font-style: italic;
+		font-size: 2vw;
+		font-weight: 400;
+		transition: color 0.3s ease;
+	}
+
+	.uni:hover {
+		cursor: pointer;
+		color: var(--text-muted);
+		transition: color 0.3s ease;
 	}
 </style>
