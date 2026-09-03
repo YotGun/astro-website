@@ -5,49 +5,63 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<main id="main">
-		<h1>BSc. Computing Science<br>
-			Minor in Mathematics</h1>
-		<a href="https://www.ualberta.ca/en/index.html" target="_blank" class="uni">
-			<h2>University of Alberta | 2023 - 2027
-			</h2>
-		</a>
-		<div class="links">
-			<a href="https://github.com/YotGun" target="_blank" class="github">
-				<img src="/icons/github.svg" alt="GitHub" class="github-icon">
+		<div class="hero-copy">
+			<h1>BSc. Computing Science<br>
+				Minor in Mathematics</h1>
+			<a href="https://www.ualberta.ca/en/index.html" target="_blank" class="uni">
+				<h2>University of Alberta | 2023 - 2027
+				</h2>
 			</a>
-			<a href="https://www.linkedin.com/in/reganvrn/" target="_blank" class="linkedin">
-				<img src="/icons/linkedin.svg" alt="LinkedIn" class="linkedin-icon">
-			</a>
-			<a href="mailto:regan.ng@ualberta.ca" target="_blank" class="email">
-				<img src="/icons/email.svg" alt="Email" class="email-icon">
-			</a>
+			<div class="links">
+				<a href="https://github.com/YotGun" target="_blank" class="github">
+					<img src="/icons/github.svg" alt="GitHub" class="github-icon">
+				</a>
+				<a href="https://www.linkedin.com/in/reganvrn/" target="_blank" class="linkedin">
+					<img src="/icons/linkedin.svg" alt="LinkedIn" class="linkedin-icon">
+				</a>
+				<a href="mailto:regan.ng@ualberta.ca" target="_blank" class="email">
+					<img src="/icons/email.svg" alt="Email" class="email-icon">
+				</a>
+			</div>
 		</div>
+		<figure class="hero-media">
+			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+		</figure>
 	</main>
-	<div class="curtain-spacer" aria-hidden="true"></div>
+	<div class="curtain-sizer" aria-hidden="true"></div>
 	<div id="page-content">
 	<section id="about" class="content-section content-section--left">
-		<div class="content-section__inner">
+		<div class="content-section__copy">
 			<h2>About</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
 		</div>
+		<figure class="content-section__media">
+			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+		</figure>
 	</section>
 	<section id="sample1" class="content-section content-section--right">
-		<div class="content-section__inner">
+		<div class="content-section__copy">
 			<h2>Sample1</h2>
 			<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
 			<p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
 			<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
 		</div>
+		<figure class="content-section__media">
+			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+		</figure>
 	</section>
 	<section id="sample2" class="content-section content-section--left">
-		<div class="content-section__inner">
+		<div class="content-section__copy">
 			<h2>Sample2</h2>
 			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 			<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
 			<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
 		</div>
+		<figure class="content-section__media">
+			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+		</figure>
 	</section>
 	</div>
 </Layout>
@@ -59,10 +73,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		left: 0;
 		right: 0;
 		z-index: 5;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: flex-start;
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		align-items: center;
+		gap: clamp(1.5rem, 5vw, 5rem);
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
@@ -77,17 +91,51 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		will-change: transform;
 	}
 
-	.curtain-spacer {
-		height: 100vh;
-		height: 100svh;
-		height: 100dvh;
+	.hero-copy {
+		min-width: 0;
+	}
+
+	.hero-media {
+		margin: 0;
+		padding-bottom: 5vw;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.hero-media img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 55vh;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 12px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		background: #140e18;
+	}
+
+	.curtain-sizer {
 		pointer-events: none;
+	}
+
+	html.is-curtain-active #page-content {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		overflow-anchor: none;
 	}
 
 	#page-content {
 		position: relative;
 		z-index: 1;
 		will-change: transform;
+		background:
+			radial-gradient(ellipse 85% 42% at 88% 6%, rgba(65, 29, 79, 0.62) 0%, transparent 78%),
+			radial-gradient(ellipse 70% 38% at 8% 34%, rgba(26, 107, 92, 0.38) 0%, transparent 75%),
+			radial-gradient(ellipse 72% 40% at 92% 66%, rgba(140, 42, 58, 0.34) 0%, transparent 76%),
+			radial-gradient(ellipse 80% 44% at 10% 96%, rgba(65, 29, 79, 0.48) 0%, transparent 78%),
+			linear-gradient(180deg, #16101c 0%, #101614 38%, #161014 72%, #120e18 100%);
 	}
 
 	main h1 {
@@ -210,23 +258,40 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	.content-section {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
+		gap: clamp(2rem, 6vw, 6rem);
 		box-sizing: border-box;
 		min-height: 100dvh;
 		scroll-margin-top: 4rem;
 		padding: 6rem clamp(1rem, 10vw, 10rem);
 	}
 
-	.content-section--left {
-		justify-content: flex-start;
-	}
-
 	.content-section--right {
-		justify-content: flex-end;
+		flex-direction: row-reverse;
 	}
 
-	.content-section__inner {
+	.content-section__copy {
+		flex: 1 1 22rem;
 		max-width: 36rem;
+		min-width: 0;
+	}
+
+	.content-section__media {
+		flex: 1 1 20rem;
+		max-width: 42rem;
+		margin: 0;
+		min-width: 0;
+	}
+
+	.content-section__media img {
+		display: block;
 		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 12px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		background: #140e18;
 	}
 
 	.content-section h2 {
@@ -273,7 +338,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 	@media (orientation: portrait) {
 		main {
+			display: flex;
+			flex-direction: column;
 			justify-content: flex-start;
+			align-items: flex-start;
 			position: relative;
 			height: auto;
 			max-height: none;
@@ -286,13 +354,46 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			padding-bottom: 6vh;
 		}
 
-		.curtain-spacer {
+		.hero-media {
+			display: none;
+		}
+
+		.curtain-sizer {
 			display: none;
 		}
 
 		#page-content {
+			position: relative;
 			will-change: auto;
 			transform: none !important;
+		}
+
+		.content-section,
+		.content-section--right {
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: center;
+			min-height: auto;
+			padding-block: 4.5rem;
+		}
+
+		.content-section__copy,
+		.content-section__media {
+			max-width: none;
+		}
+	}
+
+	@media (max-width: 900px) and (orientation: landscape) {
+		.content-section,
+		.content-section--right {
+			flex-direction: column;
+			align-items: stretch;
+			min-height: auto;
+		}
+
+		.content-section__copy,
+		.content-section__media {
+			max-width: none;
 		}
 	}
 
@@ -308,11 +409,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			pointer-events: auto !important;
 		}
 
-		.curtain-spacer {
+		.curtain-sizer {
 			display: none;
 		}
 
 		#page-content {
+			position: relative;
 			will-change: auto;
 			transform: none !important;
 		}
@@ -323,26 +425,34 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 <script>
 	const curtain = document.getElementById('main');
 	const content = document.getElementById('page-content');
-	const spacer = document.querySelector('.curtain-spacer');
+	const sizer = document.querySelector('.curtain-sizer');
 	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 	const isPortrait = window.matchMedia('(orientation: portrait)');
 
 	let ticking = false;
 
-	function liftMax() {
-		return spacer instanceof HTMLElement ? spacer.offsetHeight : window.innerHeight;
-	}
-
 	function curtainDisabled() {
 		return reduceMotion.matches || isPortrait.matches;
 	}
 
+	function liftMax() {
+		return window.innerHeight;
+	}
+
 	function resetCurtain() {
-		if (!curtain || !content) return;
-		curtain.style.transform = '';
-		curtain.style.pointerEvents = '';
-		content.style.transform = '';
+		document.documentElement.classList.remove('is-curtain-active');
+		if (curtain) {
+			curtain.style.transform = '';
+			curtain.style.pointerEvents = '';
+		}
+		if (content) content.style.transform = '';
+		if (sizer instanceof HTMLElement) sizer.style.height = '';
 		ticking = false;
+	}
+
+	function syncSizer() {
+		if (!(sizer instanceof HTMLElement) || !content || curtainDisabled()) return;
+		sizer.style.height = `${liftMax() + content.scrollHeight}px`;
 	}
 
 	function updateCurtain() {
@@ -351,10 +461,16 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			return;
 		}
 
+		document.documentElement.classList.add('is-curtain-active');
+		syncSizer();
+
 		const max = liftMax();
-		const lift = Math.min(window.scrollY, max);
+		const y = window.scrollY;
+		const lift = Math.min(y, max);
+		const shift = Math.max(0, y - max);
+
 		curtain.style.transform = `translate3d(0, ${-lift}px, 0)`;
-		content.style.transform = `translate3d(0, ${lift - max}px, 0)`;
+		content.style.transform = `translate3d(0, ${-shift}px, 0)`;
 		curtain.style.pointerEvents = lift >= max ? 'none' : '';
 		ticking = false;
 	}
@@ -365,17 +481,46 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		requestAnimationFrame(updateCurtain);
 	}
 
+	function scrollToHash(hash, smooth) {
+		const id = hash.replace('#', '');
+		if (!id || id === 'main') {
+			window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+			return;
+		}
+
+		const target = document.getElementById(id);
+		if (!target) return;
+
+		if (curtainDisabled()) {
+			target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+			return;
+		}
+
+		window.scrollTo({
+			top: liftMax() + target.offsetTop,
+			behavior: smooth ? 'smooth' : 'auto',
+		});
+	}
+
 	window.addEventListener('scroll', onScrollOrResize, { passive: true });
 	window.addEventListener('resize', onScrollOrResize);
 	reduceMotion.addEventListener('change', updateCurtain);
 	isPortrait.addEventListener('change', updateCurtain);
 
-	document.querySelectorAll('a[href="#main"]').forEach((link) => {
+	if (content) {
+		new ResizeObserver(onScrollOrResize).observe(content);
+	}
+
+	document.querySelectorAll('a[href^="#"]').forEach((link) => {
+		const href = link.getAttribute('href');
+		if (!href || href === '#') return;
 		link.addEventListener('click', (event) => {
 			event.preventDefault();
-			window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+			scrollToHash(href, !reduceMotion.matches);
+			history.pushState(null, '', href);
 		});
 	});
 
 	updateCurtain();
+	if (location.hash) scrollToHash(location.hash, false);
 </script>

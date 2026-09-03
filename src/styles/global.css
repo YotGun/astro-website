@@ -45,6 +45,17 @@ a {
 	text-decoration: none;
 }
 
+.bg-noise {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	pointer-events: none;
+	opacity: 0.11;
+	background-image: url('/noise.svg');
+	background-repeat: repeat;
+	background-size: 180px 180px;
+}
+
 .sr-only {
 	border: 0;
 	padding: 0;
