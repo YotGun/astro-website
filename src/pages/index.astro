@@ -39,31 +39,50 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	main {
 		display: flex;
 		flex-direction: column;
-		justify-content: left;
-		min-height: 100%;
-		padding: 10vw;
-		padding-top: 14vw;
+		justify-content: center;
+		align-items: flex-start;
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 100%;
+		min-height: 100vh;
+		min-height: 100svh;
+		min-height: 100dvh;
+		padding-top: 4.5rem;
+		padding-bottom: 2.5rem;
+		padding-inline: clamp(1rem, 10vw, 10rem);
 		overscroll-behavior-y: none;
-		background: var(--bg)
+		background: var(--bg);
 	}
 
 	main h1 {
 		font-family: 'JetBrains Mono', monospace;
 		font-style: italic;
-		font-size: 4vw;
+		font-size: clamp(1.85rem, 4vw, 4.25rem);
 		font-weight: 400;
 		letter-spacing: -0.02em;
+		line-height: 1.2;
 		color: var(--text);
-		margin-bottom: 0;
+		margin: 0;
+		min-width: 0;
+		max-width: 100%;
 	}
 
 	.uni {
+		display: block;
+		margin-top: 0.35em;
 		font-family: 'JetBrains Mono Thin', monospace;
 		font-style: italic;
-		font-size: 2vw;
+		font-size: clamp(0.95rem, 2vw, 2.15rem);
 		font-weight: 400;
 		color: var(--text-muted);
+		min-width: 0;
+		max-width: 100%;
 		transition: color 0.3s ease;
+	}
+
+	.uni h2 {
+		margin: 0;
+		font: inherit;
 	}
 
 	.uni:hover {
@@ -73,13 +92,26 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.links {
-		margin-top: 10vw;
+		margin-top: clamp(1.5rem, 12vh, 6.5rem);
 		display: flex;
 		flex-direction: row;
-		justify-content: left;
-		gap: 2vw;
-		height: 3vw;
+		justify-content: flex-start;
+		align-items: center;
+		gap: clamp(0.75rem, 2vw, 2rem);
 		filter: invert(1);
+	}
+
+	.links a {
+		display: block;
+		flex: 0 0 auto;
+		width: clamp(1.75rem, 3vw, 2.75rem);
+		height: clamp(1.75rem, 3vw, 2.75rem);
+		overflow: hidden;
+	}
+
+	.links a.email {
+		width: auto;
+		overflow: visible;
 	}
 
 	.github:hover, .linkedin:hover {
@@ -89,31 +121,45 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.github-icon, .linkedin-icon, .email-icon {
+		display: block;
 		width: 100%;
 		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		min-width: 0;
+		min-height: 0;
+		object-fit: contain;
 	}
 	
 	.email {
 		position: relative;
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 	}
 
 	.email-icon {
+		width: clamp(1.75rem, 3vw, 2.75rem);
+		height: clamp(1.75rem, 3vw, 2.75rem);
+		flex-shrink: 0;
 		transition: opacity 0.3s ease;
 	}
 
 	.email::after {
 		content: "personal@regan.ng";
 		position: absolute;
+		left: 0;
+		top: 50%;
+		translate: 0 -50%;
 		opacity: 0;
 		font-family: 'JetBrains Mono Thin', monospace;
 		font-style: italic;
-		font-size: 2vw;
+		font-size: clamp(0.95rem, 2vw, 2.15rem);
 		font-weight: 400;
+		line-height: 1;
+		white-space: nowrap;
 		filter: invert(1);
 		color: var(--text);
-		
+		pointer-events: none;
 		transition: opacity 0.3s ease;
 	}
 
@@ -129,4 +175,34 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		min-height: 100dvh;
 		scroll-margin-top: 4rem;
 	}
+
+	@media (max-width: 640px) {
+		main {
+			padding-inline: 1.25rem;
+		}
+
+		.links {
+			margin-top: clamp(1.25rem, 8vh, 3.5rem);
+		}
+	}
+
+	@media (max-height: 520px) {
+		main {
+			padding-top: 4rem;
+			padding-bottom: 1.25rem;
+		}
+
+		.links {
+			margin-top: 1.25rem;
+		}
+	}
+
+	@media (orientation: portrait) {
+		main {
+			justify-content: flex-start;
+			padding-top: 12vh;
+			padding-bottom: 12vh;
+		}
+	}
+
 </style>
