@@ -1,63 +1,31 @@
 ---
 import { APP_URL } from '../consts';
+
+const navItems = [
+	{ label: 'About', href: '#about' },
+	{ label: 'Sample1', href: '#sample1' },
+	{ label: 'Sample2', href: '#sample2' },
+];
 ---
 
-<header>
-	<a href={APP_URL} class="access-btn" target="_blank" rel="noopener noreferrer">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="16"
-			height="16"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			aria-hidden="true"
-		>
-			<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-			<polyline points="10 17 15 12 10 7" />
-			<line x1="15" y1="12" x2="3" y2="12" />
-		</svg>
-		Access
-	</a>
+<header class="site-header">
+	<div class="site-header__inner">
+		<a href="#main" class="site-header__logo">regan.ng</a>
+
+		<nav class="site-header__nav" aria-label="Main">
+			<ul class="site-header__nav-list">
+				{
+					navItems.map((item) => (
+						<li>
+							<a href={item.href} class="site-header__nav-link">{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<a href={APP_URL} class="site-header__login-btn" target="_blank" rel="noopener noreferrer">
+			App Login
+		</a>
+	</div>
 </header>
-
-<style>
-	header {
-		position: fixed;
-		top: 0;
-		right: 0;
-		left: 0;
-		display: flex;
-		justify-content: flex-end;
-		padding: 1.25rem 1.5rem;
-		z-index: 10;
-	}
-
-	.access-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--text);
-		background: transparent;
-		border: 1px solid var(--border);
-		border-radius: 6px;
-		transition:
-			border-color 0.15s ease,
-			background-color 0.15s ease;
-	}
-
-	.access-btn:hover {
-		border-color: var(--border-hover);
-		background-color: rgba(255, 255, 255, 0.04);
-	}
-
-	.access-btn svg {
-		flex-shrink: 0;
-	}
-</style>

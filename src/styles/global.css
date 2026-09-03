@@ -4,6 +4,11 @@
 	--text-muted: #a3a3a3;
 	--border: #262626;
 	--border-hover: #404040;
+	--blue: #3b82f6;
+	--blue-hover: #2563eb;
+	--github: url('/icons/github.svg');
+	--linkedin: url('/icons/linkedin.svg');
+	--email: url('/icons/email.svg');
 }
 
 *,
@@ -14,6 +19,8 @@
 
 html {
 	color-scheme: dark;
+	scroll-behavior: smooth;
+	scroll-padding-top: 4rem;
 }
 
 body {
@@ -26,7 +33,8 @@ body {
 		'Segoe UI',
 		Roboto,
 		sans-serif;
-	background-color: var(--bg);
+	background: var(--bg);
+	background-attachment: fixed;
 	color: var(--text);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -88,4 +96,103 @@ a {
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;
+}
+
+.site-header {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 10;
+	background: var(--bg);
+	background-attachment: fixed;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 1rem 1.5rem;
+}
+
+.site-header__logo {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.95rem;
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	color: var(--text);
+	white-space: nowrap;
+	transition: opacity 0.15s ease;
+}
+
+.site-header__logo:hover {
+	opacity: 0.8;
+}
+
+.site-header__nav {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.site-header__nav-list {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-header__nav-link {
+	padding: 0.5rem 0.875rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--text-muted);
+	border-radius: 6px;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.site-header__nav-link:hover {
+	color: var(--text);
+	background-color: rgba(255, 255, 255, 0.04);
+}
+
+.site-header__login-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.5rem 1.125rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #fff;
+	background: var(--blue);
+	border-radius: 9999px;
+	white-space: nowrap;
+	transition: background-color 0.15s ease;
+}
+
+.site-header__login-btn:hover {
+	background: var(--blue-hover);
+}
+
+@media (max-width: 640px) {
+	.site-header__inner {
+		padding: 0.875rem 1rem;
+	}
+
+	.site-header__nav-link {
+		padding: 0.5rem 0.625rem;
+		font-size: 0.8125rem;
+	}
+
+	.site-header__login-btn {
+		padding: 0.5rem 0.875rem;
+		font-size: 0.8125rem;
+	}
 }
