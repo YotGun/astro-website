@@ -74,7 +74,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		right: 0;
 		z-index: 5;
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		grid-template-columns: max-content minmax(0, 1fr);
 		align-items: center;
 		gap: clamp(1.5rem, 5vw, 5rem);
 		box-sizing: border-box;
@@ -92,7 +92,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.hero-copy {
-		min-width: 0;
+		min-width: max-content;
 	}
 
 	.hero-media {
@@ -147,8 +147,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		line-height: 1.2;
 		color: var(--text);
 		margin: 0;
-		min-width: 0;
-		max-width: 100%;
+		white-space: nowrap;
 	}
 
 	.uni {
@@ -352,6 +351,14 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			pointer-events: auto !important;
 			padding-top: 12vh;
 			padding-bottom: 6vh;
+		}
+
+		.hero-copy {
+			min-width: 0;
+		}
+
+		main h1 {
+			white-space: normal;
 		}
 
 		.hero-media {
