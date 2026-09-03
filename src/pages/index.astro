@@ -23,20 +23,42 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			</a>
 		</div>
 	</main>
-
-	<section id="about" class="placeholder-section" aria-label="About">
-		<h2 class="sr-only">About</h2>
+	<div class="curtain-spacer" aria-hidden="true"></div>
+	<div id="page-content">
+	<section id="about" class="content-section content-section--left">
+		<div class="content-section__inner">
+			<h2>About</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+		</div>
 	</section>
-	<section id="sample1" class="placeholder-section" aria-label="Sample1">
-		<h2 class="sr-only">Sample1</h2>
+	<section id="sample1" class="content-section content-section--right">
+		<div class="content-section__inner">
+			<h2>Sample1</h2>
+			<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+			<p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
+			<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+		</div>
 	</section>
-	<section id="sample1" class="placeholder-section" aria-label="Sample2">
-		<h2 class="sr-only">Sample2</h2>
+	<section id="sample2" class="content-section content-section--left">
+		<div class="content-section__inner">
+			<h2>Sample2</h2>
+			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+			<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+			<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+		</div>
 	</section>
+	</div>
 </Layout>
 
 <style>
 	main {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 5;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -44,14 +66,28 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
-		min-height: 100vh;
-		min-height: 100svh;
-		min-height: 100dvh;
+		height: 100vh;
+		height: 100svh;
+		height: 100dvh;
 		padding-top: 4.5rem;
 		padding-bottom: 2.5rem;
 		padding-inline: clamp(1rem, 10vw, 10rem);
 		overscroll-behavior-y: none;
 		background: var(--bg);
+		will-change: transform;
+	}
+
+	.curtain-spacer {
+		height: 100vh;
+		height: 100svh;
+		height: 100dvh;
+		pointer-events: none;
+	}
+
+	#page-content {
+		position: relative;
+		z-index: 1;
+		will-change: transform;
 	}
 
 	main h1 {
@@ -171,9 +207,47 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		opacity: 1;
 	}
 
-	.placeholder-section {
+	.content-section {
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
 		min-height: 100dvh;
 		scroll-margin-top: 4rem;
+		padding: 6rem clamp(1rem, 10vw, 10rem);
+	}
+
+	.content-section--left {
+		justify-content: flex-start;
+	}
+
+	.content-section--right {
+		justify-content: flex-end;
+	}
+
+	.content-section__inner {
+		max-width: 36rem;
+		width: 100%;
+	}
+
+	.content-section h2 {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+		font-weight: 400;
+		letter-spacing: -0.02em;
+		color: var(--text);
+		margin: 0 0 1.25rem;
+	}
+
+	.content-section p {
+		font-family: 'JetBrains Mono Thin', monospace;
+		font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+		line-height: 1.7;
+		color: var(--text-muted);
+		margin: 0 0 1rem;
+	}
+
+	.content-section p:last-child {
+		margin-bottom: 0;
 	}
 
 	@media (max-width: 640px) {
@@ -200,9 +274,108 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	@media (orientation: portrait) {
 		main {
 			justify-content: flex-start;
+			position: relative;
+			height: auto;
+			max-height: none;
+			min-height: 0;
+			z-index: auto;
+			will-change: auto;
+			transform: none !important;
+			pointer-events: auto !important;
 			padding-top: 12vh;
-			padding-bottom: 12vh;
+			padding-bottom: 6vh;
+		}
+
+		.curtain-spacer {
+			display: none;
+		}
+
+		#page-content {
+			will-change: auto;
+			transform: none !important;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		main {
+			position: relative;
+			height: auto;
+			max-height: none;
+			min-height: 0;
+			z-index: auto;
+			will-change: auto;
+			transform: none !important;
+			pointer-events: auto !important;
+		}
+
+		.curtain-spacer {
+			display: none;
+		}
+
+		#page-content {
+			will-change: auto;
+			transform: none !important;
 		}
 	}
 
 </style>
+
+<script>
+	const curtain = document.getElementById('main');
+	const content = document.getElementById('page-content');
+	const spacer = document.querySelector('.curtain-spacer');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const isPortrait = window.matchMedia('(orientation: portrait)');
+
+	let ticking = false;
+
+	function liftMax() {
+		return spacer instanceof HTMLElement ? spacer.offsetHeight : window.innerHeight;
+	}
+
+	function curtainDisabled() {
+		return reduceMotion.matches || isPortrait.matches;
+	}
+
+	function resetCurtain() {
+		if (!curtain || !content) return;
+		curtain.style.transform = '';
+		curtain.style.pointerEvents = '';
+		content.style.transform = '';
+		ticking = false;
+	}
+
+	function updateCurtain() {
+		if (!curtain || !content || curtainDisabled()) {
+			resetCurtain();
+			return;
+		}
+
+		const max = liftMax();
+		const lift = Math.min(window.scrollY, max);
+		curtain.style.transform = `translate3d(0, ${-lift}px, 0)`;
+		content.style.transform = `translate3d(0, ${lift - max}px, 0)`;
+		curtain.style.pointerEvents = lift >= max ? 'none' : '';
+		ticking = false;
+	}
+
+	function onScrollOrResize() {
+		if (ticking) return;
+		ticking = true;
+		requestAnimationFrame(updateCurtain);
+	}
+
+	window.addEventListener('scroll', onScrollOrResize, { passive: true });
+	window.addEventListener('resize', onScrollOrResize);
+	reduceMotion.addEventListener('change', updateCurtain);
+	isPortrait.addEventListener('change', updateCurtain);
+
+	document.querySelectorAll('a[href="#main"]').forEach((link) => {
+		link.addEventListener('click', (event) => {
+			event.preventDefault();
+			window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+		});
+	});
+
+	updateCurtain();
+</script>
