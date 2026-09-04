@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<main id="main404">
+		<h1>404 Not Found</h1>
+        <a href="/">Back to Home</a>
+	</main>
+</Layout>
+
+<style is:global>
+    #main404 {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        width: 100dvw;
+        background: var(--bg);
+        justify-content: center;
+        align-items: center;
+        font-family: 'Jetbrains Mono', monospace;
+        font-size: 2rem;
+        color: var(--text);
+        padding-bottom: 3dvh;
+    }
+
+    #main404 a {
+        color: var(--text-muted);
+        transition: color 0.3s ease;
+    }
+
+    #main404 a:hover {
+        color: var(--blue);
+        transition: color 0.3s ease;
+    }
+
+    .site-header__nav {
+        visibility: hidden;
+    }
+    
+</style>
+
+<script>
+    document.getElementsByClassName("site-header__logo")[0].href = "/";
+</script>
