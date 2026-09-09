@@ -5,13 +5,15 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<main id="main">
+		<figure class="hero-media">
+			<img src="/images/headerimg.JPG" alt="" width="960" height="720" />
+		</figure>
 		<div class="hero-copy">
-			<h1>BSc. Computing Science<br>
-				Minor in Mathematics</h1>
-			<a href="https://www.ualberta.ca/en/index.html" target="_blank" class="uni">
-				<h2>University of Alberta | 2023 - 2027
-				</h2>
-			</a>
+			<h1>
+				<span class="hero-name">Hey, I'm Regan Ng!</span>
+				<span class="hero-lede">Here you'll find some of the things I've made, or at least tried making.</span>
+				<span class="hero-lede">Site's still a work in progress, so please be nice :D</span>
+			</h1>
 			<div class="links">
 				<a href="https://github.com/YotGun" target="_blank" class="github">
 					<img src="/icons/github.svg" alt="GitHub" class="github-icon">
@@ -19,22 +21,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 				<a href="https://www.linkedin.com/in/reganvrn/" target="_blank" class="linkedin">
 					<img src="/icons/linkedin.svg" alt="LinkedIn" class="linkedin-icon">
 				</a>
-				<a href="mailto:regan.ng@ualberta.ca" target="_blank" class="email">
+				<a href="mailto:regan.ng@ualberta.ca" target="_blank" class="email" title="personal@regan.ng">
 					<img src="/icons/email.svg" alt="Email" class="email-icon">
 				</a>
 			</div>
 		</div>
-		<figure class="hero-media">
-			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
-		</figure>
 	</main>
 	<div class="curtain-sizer" aria-hidden="true"></div>
 	<div id="page-content">
 	<section id="about" class="content-section content-section--left">
 		<div class="content-section__copy">
 			<h2>About</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics.</p>
+			<p>I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of it.</p>
 			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
 		</div>
 		<figure class="content-section__media">
@@ -73,30 +72,37 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		left: 0;
 		right: 0;
 		z-index: 5;
-		display: grid;
-		grid-template-columns: max-content minmax(0, 1fr);
+		display: flex;
+		flex-direction: column;
 		align-items: center;
-		gap: clamp(1.5rem, 5vw, 5rem);
+		justify-content: center;
+		gap: clamp(1.1rem, 3.5vh, 2rem);
 		box-sizing: border-box;
+		container-type: inline-size;
 		width: 100%;
 		max-width: 100%;
 		height: 100dvh;
-		padding-top: 4.5rem;
-		padding-bottom: 2.5rem;
-		padding-inline: clamp(1rem, 10vw, 10rem);
+		padding-top: 5.25rem;
+		padding-bottom: 2.25rem;
+		padding-inline: clamp(1.25rem, 8vw, 10rem);
+		overflow-x: clip;
 		overscroll-behavior-y: none;
 		background: var(--bg);
 		will-change: transform;
+		text-align: center;
 	}
 
 	.hero-copy {
-		min-width: max-content;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-width: 0;
+		width: min(100%, 42rem);
 	}
 
 	.hero-media {
 		margin: 0;
-		padding-bottom: 5vw;
-		width: 100%;
+		width: min(100%, 28rem);
 		min-width: 0;
 	}
 
@@ -104,9 +110,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		display: block;
 		width: 100%;
 		height: auto;
-		max-height: 55vh;
+		max-height: min(38vh, 22rem);
 		aspect-ratio: 4 / 3;
 		object-fit: cover;
+		margin-inline: auto;
 		border-radius: 12px;
 		border: 1px solid rgba(255, 255, 255, 0.08);
 		background: #140e18;
@@ -139,54 +146,49 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	main h1 {
 		font-family: 'JetBrains Mono', monospace;
 		font-style: italic;
-		font-size: clamp(1.85rem, 4vw, 4.25rem);
 		font-weight: 400;
 		letter-spacing: -0.02em;
-		line-height: 1.2;
 		color: var(--text);
 		margin: 0;
-		white-space: nowrap;
-	}
-
-	.uni {
-		display: block;
-		margin-top: 0.35em;
-		font-family: 'JetBrains Mono Thin', monospace;
-		font-style: italic;
-		font-size: clamp(0.95rem, 2vw, 2.15rem);
-		font-weight: 400;
-		color: var(--text-muted);
-		min-width: 0;
 		max-width: 100%;
-		transition: color 0.3s ease;
+		overflow-wrap: break-word;
 	}
 
-	.uni h2 {
-		margin: 0;
-		font: inherit;
+	.hero-name {
+		display: block;
+		font-size: clamp(1.55rem, min(3.6cqi + 0.4rem, 6vh), 3.15rem);
+		line-height: 1.2;
+		margin-bottom: 0.7em;
 	}
 
-	.uni:hover {
-		cursor: pointer;
-		color: var(--blue);
-		transition: color 0.3s ease;
+	.hero-lede {
+		display: block;
+		font-family: 'JetBrains Mono Thin', monospace;
+		font-size: clamp(0.92rem, min(1.55cqi + 0.3rem, 2.8vh), 1.3rem);
+		line-height: 1.5;
+		text-wrap: balance;
+		color: var(--text);
+	}
+
+	.hero-lede + .hero-lede {
+		margin-top: 0.3em;
 	}
 
 	.links {
-		margin-top: clamp(1.5rem, 12dvh, 6.5rem);
+		margin-top: 3rem;
 		display: flex;
 		flex-direction: row;
-		justify-content: flex-start;
+		justify-content: center;
 		align-items: center;
-		gap: clamp(0.75rem, 2vw, 2rem);
+		gap: 1rem;
 		filter: invert(1);
 	}
 
 	.links a {
 		display: block;
 		flex: 0 0 auto;
-		width: clamp(1.75rem, 3vw, 2.75rem);
-		height: clamp(1.75rem, 3vw, 2.75rem);
+		width: 1.75rem;
+		height: 1.75rem;
 		overflow: hidden;
 	}
 
@@ -219,9 +221,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.email-icon {
-		width: clamp(1.75rem, 3vw, 2.75rem);
-		height: clamp(1.75rem, 3vw, 2.75rem);
-		flex-shrink: 0;
+		width: 1.75rem;
+		height: 1.75rem;
 		transition: opacity 0.3s ease;
 	}
 
@@ -234,7 +235,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		opacity: 0;
 		font-family: 'JetBrains Mono Thin', monospace;
 		font-style: italic;
-		font-size: clamp(0.95rem, 2vw, 2.15rem);
+		font-size: 0.95rem;
 		font-weight: 400;
 		line-height: 1;
 		white-space: nowrap;
@@ -315,17 +316,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	@media (max-width: 640px) {
 		main {
 			padding-inline: 1.25rem;
+			gap: 1.25rem;
 		}
 
-		.links {
-			margin-top: clamp(1.25rem, 8vh, 3.5rem);
-		}
-	}
-
-	@media (max-height: 520px) {
-		main {
-			padding-top: 4rem;
-			padding-bottom: 1.25rem;
+		.hero-media {
+			width: min(100%, 20rem);
 		}
 
 		.links {
@@ -333,12 +328,29 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		}
 	}
 
+	@media (max-height: 520px) {
+		main {
+			padding-top: 4.25rem;
+			padding-bottom: 1rem;
+			gap: 0.85rem;
+			justify-content: center;
+		}
+
+		.hero-media img {
+			max-height: min(32vh, 10.5rem);
+		}
+
+		.hero-name {
+			margin-bottom: 0.45em;
+		}
+
+		.links {
+			margin-top: 0.9rem;
+		}
+	}
+
 	@media (orientation: portrait) {
 		main {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
 			position: relative;
 			height: auto;
 			max-height: none;
@@ -347,20 +359,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			will-change: auto;
 			transform: none !important;
 			pointer-events: auto !important;
-			padding-top: 12dvh;
-			padding-bottom: 6dvh;
-		}
-
-		.hero-copy {
-			min-width: 0;
-		}
-
-		main h1 {
-			white-space: normal;
+			padding-top: 6.5rem;
+			padding-bottom: 3.5rem;
+			gap: 1.75rem;
 		}
 
 		.hero-media {
-			display: none;
+			width: min(100%, 22rem);
+		}
+
+		.hero-media img {
+			max-height: none;
 		}
 
 		.curtain-sizer {
