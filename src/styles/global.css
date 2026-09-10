@@ -159,6 +159,7 @@ body::before {
 	flex: 1;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	min-width: 0;
 }
 
@@ -176,6 +177,7 @@ body::before {
 	padding: 0.5rem clamp(0.55rem, 1.15vw, 1.4rem);
 	font-size: 0.9rem;
 	font-weight: 500;
+	font-family: 'JetBrains Mono Bold', monospace;
 	color: var(--text-muted);
 	border-radius: 6px;
 	white-space: nowrap;
@@ -191,20 +193,30 @@ body::before {
 
 .site-header__login-btn {
 	display: inline-flex;
+	flex-wrap: nowrap;
 	align-items: center;
-	flex-shrink: 0;
+	justify-content: center;
+	gap: 0.55rem;
 	padding: 0.5rem 1.125rem;
+	font-family: 'JetBrains Mono Bold', monospace;
 	font-size: 0.875rem;
 	font-weight: 500;
-	color: #fff;
-	background: var(--blue);
-	border-radius: 9999px;
-	white-space: nowrap;
-	transition: background-color 0.15s ease;
+	line-height: 1;
+	color: var(--text-muted);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+	background: transparent;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease,
+		border-color 0.15s ease;
 }
 
 .site-header__login-btn:hover {
-	background: var(--blue-hover);
+	color: var(--text);
+	background-color: rgba(255, 255, 255, 0.04);
+	border-color: rgba(255, 255, 255, 0.16);
+	opacity: 1;
 }
 
 @media (max-width: 720px) {
