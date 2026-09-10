@@ -6,7 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<main id="main">
 		<figure class="hero-media">
-			<img src="/images/headerimg.JPG" alt="" width="960" height="720" />
+			<img src="/images/headerimg.jpeg" alt="" width="960" height="720" />
 		</figure>
 		<div class="hero-copy">
 			<h1>
@@ -32,34 +32,38 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<section id="about" class="content-section content-section--left">
 		<div class="content-section__copy">
 			<h2>About</h2>
-			<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics.</p>
-			<p>I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of it.</p>
-			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+			<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics. I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of the experience so far. </p>
+			<p>One of the things I've enjoyed most about living here is getting to meet so many friendly people and experiencing a different environment from what I was used to in Jakarta. I also appreciate the much more manageable traffic and accessible public transportation (if you've been to Jakarta, you'll know what I mean).</p>
+			<p>I've also always been interested in technology, both software and hardware, and I enjoy keeping up with new developments. My main passion is software development like modding or creating open source software that people can actually use / find useful. I'm becoming increasingly interested in cybersecurity especially when AI keeps getting better at breaking through security measures.</p>
 		</div>
 		<figure class="content-section__media">
-			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+			<img src="/images/jojizoom.jpeg" alt="" width="960" height="720" />
 		</figure>
 	</section>
-	<section id="sample1" class="content-section content-section--right">
+	<section id="project1" class="content-section content-section--right">
 		<div class="content-section__copy">
-			<h2>Sample1</h2>
-			<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-			<p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
-			<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+			<h2>Project 1 - Personal Vault</h2>
+			<p>One of my personal projects is a private, web application (the blue login button in the top right corner) that I built to write and store my notes, files, images, and lecture videos in one place. Before this, I relied on Obsidian but syncing them across devices was a pain if I did not want to pay a subscription fee. Building this on the web meant that I can always have my notes ready whether I'm on macOS or Windows.</p>
+			<p>The application is built with Astro and Cloudflare Workers, with Cloudflare D1 used for storing notes and R2 used for file storage. The webapp is actually very simple, anyone can basically clone the repo without much tinkering since Cloudflare Access handles the privacy stuff. All you need is your own domain and the Cloudflare free tier is completely sufficient for individual work. I was initially planning on making it publicly accessible but the amount of worker calls would've ended up costing me money.</p>
+			<p>To be completely honest, I'm not a very creative person in terms of UI work so I let Cursor polish the front end to make it look pretty lol.</p>
 		</div>
 		<figure class="content-section__media">
-			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+			<video src="/videos/appdemo.mp4" width="1920" height="1080" autoplay muted loop playsinline>
+				Your browser does not support the video tag.
+			</video>
 		</figure>
 	</section>
-	<section id="sample2" class="content-section content-section--left">
+	<section id="project2" class="content-section content-section--left">
 		<div class="content-section__copy">
-			<h2>Sample2</h2>
-			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-			<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-			<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+			<h2>Project 2 - Evently</h2>
+			<p>Evently is a group project we worked on to develop an Android app for managing events through a lottery-based registration system. The idea was to solve a common problem with popular events when more people want to attend than there are available spots. My team consisted of 6 people and I mainly worked on the event functionality, like creating or signing up for events, drawing winners, etc.</p>
+			<p>The application was developed for Android using Java and Material Design, with Firebase used for authentication and backend functionality. The project implemented features such as Google Sign-In (which was extremely buggy for some reason), Google Maps integration, QR-code-based event access, and Firebase Cloud Functions.</p>
+			<p>This project was definitely a fun one since the TA acted as the client and we had to fulfill their expectations. Our project was also praised as being the most technical and feature complete, with us going the extra mile to make sure everything needs proper authentication.</p>
 		</div>
 		<figure class="content-section__media">
-			<img src="/images/placeholder.svg" alt="" width="960" height="720" />
+			<video src="/videos/eventlydemo.mp4" width="1280" height="720" autoplay muted loop playsinline>
+				Your browser does not support the video tag.
+			</video>
 		</figure>
 	</section>
 	</div>
@@ -84,25 +88,30 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		height: 100dvh;
 		padding-top: 5.25rem;
 		padding-bottom: 2.25rem;
-		padding-inline: clamp(1.25rem, 8vw, 10rem);
+		padding-inline: clamp(1.25rem, 5vw, 4.5rem);
 		overflow-x: clip;
 		overscroll-behavior-y: none;
 		background: var(--bg);
+		isolation: isolate;
 		will-change: transform;
 		text-align: center;
 	}
 
 	.hero-copy {
+		position: relative;
+		z-index: 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		min-width: 0;
-		width: min(100%, 42rem);
+		width: min(100%, 44rem);
 	}
 
 	.hero-media {
+		position: relative;
+		z-index: 2;
 		margin: 0;
-		width: min(100%, 28rem);
+		width: min(100%, 36rem);
 		min-width: 0;
 	}
 
@@ -110,8 +119,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		display: block;
 		width: 100%;
 		height: auto;
-		max-height: min(38vh, 22rem);
-		aspect-ratio: 4 / 3;
+		max-height: min(46vh, 26rem);
+		aspect-ratio: 3 / 2;
 		object-fit: cover;
 		margin-inline: auto;
 		border-radius: 12px;
@@ -134,6 +143,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	#page-content {
 		position: relative;
 		z-index: 1;
+		isolation: isolate;
 		will-change: transform;
 		background:
 			radial-gradient(ellipse 85% 42% at 88% 6%, rgba(65, 29, 79, 0.62) 0%, transparent 78%),
@@ -256,12 +266,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	.content-section {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: clamp(2rem, 6vw, 6rem);
+		justify-content: center;
+		gap: clamp(1.5rem, 3vw, 3rem);
 		box-sizing: border-box;
 		min-height: 100dvh;
 		scroll-margin-top: 4rem;
-		padding: 6rem clamp(1rem, 10vw, 10rem);
+		padding: clamp(5rem, 8vh, 6.5rem) clamp(1.25rem, 5vw, 4.5rem);
 	}
 
 	.content-section--right {
@@ -269,24 +279,30 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.content-section__copy {
-		flex: 1 1 22rem;
+		position: relative;
+		z-index: 0;
+		flex: 1 1 26rem;
 		max-width: 36rem;
 		min-width: 0;
 	}
 
 	.content-section__media {
-		flex: 1 1 20rem;
-		max-width: 42rem;
+		position: relative;
+		z-index: 2;
+		flex: 1.35 1 28rem;
+		max-width: 58rem;
 		margin: 0;
 		min-width: 0;
 	}
 
-	.content-section__media img {
+	.content-section__media img,
+	.content-section__media video {
 		display: block;
 		width: 100%;
 		height: auto;
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
+		max-height: min(70vh, 42rem);
+		object-fit: fill;
+		object-position: center;
 		border-radius: 12px;
 		border: 1px solid rgba(255, 255, 255, 0.08);
 		background: #140e18;
@@ -320,7 +336,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		}
 
 		.hero-media {
-			width: min(100%, 20rem);
+			width: min(100%, 22rem);
+		}
+
+		.hero-media img {
+			max-height: none;
 		}
 
 		.links {
@@ -388,12 +408,20 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 			align-items: stretch;
 			justify-content: center;
 			min-height: auto;
-			padding-block: 4.5rem;
+			gap: 1.5rem;
+			padding-block: 4rem;
+			padding-inline: 1.25rem;
 		}
 
 		.content-section__copy,
 		.content-section__media {
 			max-width: none;
+			flex: none;
+		}
+
+		.content-section__media img,
+		.content-section__media video {
+			max-height: min(48vh, 22rem);
 		}
 	}
 
