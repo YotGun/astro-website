@@ -298,11 +298,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	.content-section__media img,
 	.content-section__media video {
 		display: block;
-		width: 100%;
+		width: auto;
 		height: auto;
+		max-width: 100%;
 		max-height: min(70vh, 42rem);
-		object-fit: fill;
+		object-fit: contain;
 		object-position: center;
+		margin-inline: auto;
 		border-radius: 12px;
 		border: 1px solid rgba(255, 255, 255, 0.08);
 		background: #140e18;
