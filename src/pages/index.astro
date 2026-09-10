@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -28,44 +29,45 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		</div>
 	</main>
 	<div class="curtain-sizer" aria-hidden="true"></div>
-	<div id="page-content">
-	<section id="about" class="content-section content-section--left">
-		<div class="content-section__copy">
-			<h2>About</h2>
-			<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics. I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of the experience so far. </p>
-			<p>One of the things I've enjoyed most about living here is getting to meet so many friendly people and experiencing a different environment from what I was used to in Jakarta. I also appreciate the much more manageable traffic and accessible public transportation (if you've been to Jakarta, you'll know what I mean).</p>
-			<p>I've also always been interested in technology, both software and hardware, and I enjoy keeping up with new developments. My main passion is software development like modding or creating open source software that people can actually use / find useful. I'm becoming increasingly interested in cybersecurity especially when AI keeps getting better at breaking through security measures.</p>
-		</div>
-		<figure class="content-section__media">
-			<img src="/images/jojizoom.jpeg" alt="" width="960" height="720" />
-		</figure>
-	</section>
-	<section id="project1" class="content-section content-section--right">
-		<div class="content-section__copy">
-			<h2>Project 1 - Personal Vault</h2>
-			<p>One of my personal projects is a private, webapp (the blue login button in the top right corner) that I built to write and store my notes, files, images, and lecture videos in one place. Before this, I relied on Obsidian but syncing them across devices was a pain if I did not want to pay a subscription fee. Building this on the web meant that I can always have my notes ready whether I'm on macOS or Windows.</p>
-			<p>The application is built with Astro and Cloudflare Workers, with Cloudflare D1 used for storing notes and R2 used for file storage. The webapp is actually very simple, anyone can basically clone the repo without much tinkering since Cloudflare Access handles the privacy stuff. All you need is your own domain and the Cloudflare free tier is completely sufficient for individual work. I was initially planning on making it publicly accessible but the amount of worker calls would've ended up costing me money.</p>
-			<p>To be completely honest, I'm not a very creative person in terms of UI work so I let Cursor polish the front end to make it look pretty lol.</p>
-		</div>
-		<figure class="content-section__media">
-			<video src="/videos/appdemo.mp4" width="1920" height="1080" autoplay muted loop playsinline>
-				Your browser does not support the video tag.
-			</video>
-		</figure>
-	</section>
-	<section id="project2" class="content-section content-section--left">
-		<div class="content-section__copy">
-			<h2>Project 2 - Evently</h2>
-			<p>Evently is a group project we worked on to develop an Android app for managing events through a lottery-based registration system. The idea was to solve a common problem with popular events when more people want to attend than there are available spots. My team consisted of 6 people and I mainly worked on the event functionality, like creating or signing up for events, drawing winners, etc.</p>
-			<p>The application was developed for Android using Java and Material Design, with Firebase used for authentication and backend functionality. The project implemented features such as Google Sign-In (which was extremely buggy for some reason), Google Maps integration, QR-code-based event access, and Firebase Cloud Functions.</p>
-			<p>This project was definitely a fun one since the TA acted as the client and we had to fulfill their expectations. Our project was also praised as being the most technical and feature complete, with us going the extra mile to make sure everything needs proper authentication.</p>
-		</div>
-		<figure class="content-section__media">
-			<video src="/videos/eventlydemo.mp4" width="1280" height="720" autoplay muted loop playsinline>
-				Your browser does not support the video tag.
-			</video>
-		</figure>
-	</section>
+		<div id="page-content">
+		<section id="about" class="content-section content-section--left">
+			<div class="content-section__copy">
+				<h2>About</h2>
+				<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics. I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of the experience so far. </p>
+				<p>One of the things I've enjoyed most about living here is getting to meet so many friendly people and experiencing a different environment from what I was used to in Jakarta. I also appreciate the much more manageable traffic and accessible public transportation (if you've been to Jakarta, you'll know what I mean).</p>
+				<p>I've also always been interested in technology, both software and hardware, and I enjoy keeping up with new developments. My main passion is software development like modding or creating open source software that people can actually use / find useful. I'm becoming increasingly interested in cybersecurity especially when AI keeps getting better at breaking through security measures.</p>
+			</div>
+			<figure class="content-section__media">
+				<img src="/images/jojizoom.jpeg" alt="" width="960" height="720" />
+			</figure>
+		</section>
+		<section id="project1" class="content-section content-section--right">
+			<div class="content-section__copy">
+				<h2>Project 1 - Personal Vault</h2>
+				<p>One of my personal projects is a private, webapp (the blue login button in the top right corner) that I built to write and store my notes, files, images, and lecture videos in one place. Before this, I relied on Obsidian but syncing them across devices was a pain if I did not want to pay a subscription fee. Building this on the web meant that I can always have my notes ready whether I'm on macOS or Windows.</p>
+				<p>The application is built with Astro and Cloudflare Workers, with Cloudflare D1 used for storing notes and R2 used for file storage. The webapp is actually very simple, anyone can basically clone the repo without much tinkering since Cloudflare Access handles the privacy stuff. All you need is your own domain and the Cloudflare free tier is completely sufficient for individual work. I was initially planning on making it publicly accessible but the amount of worker calls would've ended up costing me money.</p>
+				<p>To be completely honest, I'm not a very creative person in terms of UI work so I let Cursor polish the front end to make it look pretty lol.</p>
+			</div>
+			<figure class="content-section__media">
+				<video src="/videos/appdemo.mp4" width="1920" height="1080" autoplay muted loop playsinline>
+					Your browser does not support the video tag.
+				</video>
+			</figure>
+		</section>
+		<section id="project2" class="content-section content-section--left">
+			<div class="content-section__copy">
+				<h2>Project 2 - Evently</h2>
+				<p>Evently is a group project we worked on to develop an Android app for managing events through a lottery-based registration system. The idea was to solve a common problem with popular events when more people want to attend than there are available spots. My team consisted of 6 people and I mainly worked on the event functionality, like creating or signing up for events, drawing winners, etc.</p>
+				<p>The application was developed for Android using Java and Material Design, with Firebase used for authentication and backend functionality. The project implemented features such as Google Sign-In (which was extremely buggy for some reason), Google Maps integration, QR-code-based event access, and Firebase Cloud Functions.</p>
+				<p>This project was definitely a fun one since the TA acted as the client and we had to fulfill their expectations. Our project was also praised as being the most technical and feature complete, with us going the extra mile to make sure everything needs proper authentication.</p>
+			</div>
+			<figure class="content-section__media">
+				<video src="/videos/eventlydemo.mp4" width="1280" height="720" autoplay muted loop playsinline>
+					Your browser does not support the video tag.
+				</video>
+			</figure>
+		</section>
+		<Footer />
 	</div>
 </Layout>
 
@@ -144,13 +146,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		position: relative;
 		z-index: 1;
 		isolation: isolate;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
 		will-change: transform;
 		background:
 			radial-gradient(ellipse 85% 42% at 88% 6%, rgba(65, 29, 79, 0.62) 0%, transparent 78%),
 			radial-gradient(ellipse 70% 38% at 8% 34%, rgba(26, 107, 92, 0.38) 0%, transparent 75%),
 			radial-gradient(ellipse 72% 40% at 92% 66%, rgba(140, 42, 58, 0.34) 0%, transparent 76%),
-			radial-gradient(ellipse 80% 44% at 10% 96%, rgba(65, 29, 79, 0.48) 0%, transparent 78%),
-			linear-gradient(180deg, #16101c 0%, #101614 38%, #161014 72%, #120e18 100%);
+			radial-gradient(ellipse 80% 44% at 10% 78%, rgba(65, 29, 79, 0.48) 0%, transparent 78%),
+			linear-gradient(180deg, #16101c 0%, #101614 38%, #161014 72%, #120e18 88%, #120e18 100%);
 	}
 
 	main h1 {

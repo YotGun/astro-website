@@ -1,0 +1,77 @@
+<footer class="site-footer" id="repo">
+	<div class="site-footer__inner">
+		<div class="site-footer__rule" aria-hidden="true"></div>
+		<a
+			class="site-footer__repo"
+			href="https://github.com/YotGun/astro-website"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			<img src="/icons/github.svg" alt="" width="18" height="18" class="site-footer__icon" />
+			<span class="site-footer__label">Repository</span>
+		</a>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		box-sizing: border-box;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding-bottom: 5vw;
+	}
+
+	.site-footer__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.site-footer__rule {
+        margin-bottom: 5vw;
+		width: 90vw;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.18);
+	}
+
+	.site-footer__repo {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		padding: 0.5rem 1.125rem;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.875rem;
+		font-weight: 500;
+		line-height: 1;
+		color: var(--text-muted);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 8px;
+		background: transparent;
+		transition:
+			color 0.15s ease,
+			background-color 0.15s ease,
+			border-color 0.15s ease;
+	}
+
+	.site-footer__repo:hover {
+		color: var(--text);
+		background-color: rgba(255, 255, 255, 0.04);
+		border-color: rgba(255, 255, 255, 0.16);
+	}
+
+	.site-footer__icon {
+		display: block;
+		width: 1.1rem;
+		height: 1.1rem;
+		filter: invert(1);
+		opacity: 0.85;
+	}
+
+	.site-footer__repo:hover .site-footer__icon {
+		opacity: 1;
+	}
+</style>
