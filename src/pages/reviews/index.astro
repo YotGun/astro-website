@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import ReviewMedia from '../../components/ReviewMedia.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { SITE_TITLE } from '../../consts';
 import { getReviews } from '../../lib/reviews';
@@ -29,13 +29,7 @@ const description = "My own reviews of products and anything else I've tried.";
 							href={`/reviews/${review.slug}/`}
 						>
 							<div class="review-card__media">
-								<Image
-									src={review.thumbnail}
-									alt=""
-									width={800}
-									loading={index < 6 ? 'eager' : 'lazy'}
-									decoding="async"
-								/>
+								<ReviewMedia media={review.thumbnail} width={800} loading={index < 6 ? 'eager' : 'lazy'} />
 							</div>
 							<div class="review-card__body">
 								<h2 class="review-card__title">{review.title}</h2>
@@ -126,7 +120,7 @@ const description = "My own reviews of products and anything else I've tried.";
 		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 	}
 
-	.review-card__media :global(img) {
+	.review-card__media :global(:is(img, video)) {
 		display: block;
 		width: 100%;
 		height: 100%;
@@ -198,7 +192,7 @@ const description = "My own reviews of products and anything else I've tried.";
 			color var(--dur-base) ease;
 	}
 
-	.review-card:is(:hover, :focus-visible) .review-card__media :global(img) {
+	.review-card:is(:hover, :focus-visible) .review-card__media :global(:is(img, video)) {
 		transform: scale(1.07);
 	}
 
@@ -210,12 +204,12 @@ const description = "My own reviews of products and anything else I've tried.";
 
 	@media (prefers-reduced-motion: reduce) {
 		.review-card__arrow,
-		.review-card__media :global(img),
+		.review-card__media :global(:is(img, video)),
 		.review-card__media::after {
 			transition: none !important;
 		}
 
-		.review-card:is(:hover, :focus-visible) .review-card__media :global(img) {
+		.review-card:is(:hover, :focus-visible) .review-card__media :global(:is(img, video)) {
 			transform: none;
 		}
 

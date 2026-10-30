@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import type { ReviewMedia } from '../lib/reviews';
+
+interface Props {
+	media: ReviewMedia;
+	width: number;
+	loading?: 'eager' | 'lazy';
+}
+
+const { media, width, loading = 'lazy' } = Astro.props;
+---
+
+{
+	media.type === 'video' ? (
+		// No controls; autoplays and loops. Browsers only allow autoplay when muted.
+		<video
+			src={media.src}
+			autoplay
+			loop
+			muted
+			playsinline
+			disablepictureinpicture
+			disableremoteplayback
+			preload={loading === 'eager' ? 'auto' : 'metadata'}
+			aria-hidden="true"
+			tabindex="-1"
+		/>
+	) : (
+		<Image src={media.image} alt="" width={width} loading={loading} decoding="async" />
+	)
+}

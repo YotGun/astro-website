@@ -7,6 +7,9 @@ import type { ImageMetadata, MarkdownInstance } from 'astro';
  *     review.md        the review text (any single .md file works)
  *     date.txt         the date posted, as YYYY-MM-DD
  *     thumbnail/       exactly one image (png, jpg, webp, avif, gif or svg)
+ *                      or video (mp4, webm, mov, m4v or ogv)
+ *     pictures/        optional extra images/videos, shown under the thumbnail on the
+ *                      review page (not in the grid), sorted by file name
  *
  * The review title is the first "# Heading" in the markdown file.
  * If there isn't one, the folder name is used instead.
@@ -21,10 +24,28 @@ const dateFiles = import.meta.glob<string>('/src/reviews/*/date.txt', {
 	query: '?raw',
 	import: 'default',
 });
-const thumbnailFiles = import.meta.glob<ImageMetadata>(
-	'/src/reviews/*/thumbnail/*.{png,jpg,jpeg,webp,avif,gif,svg,PNG,JPG,JPEG,WEBP,AVIF,GIF,SVG}',
-	{ eager: true, import: 'default' },
-);
+// Glob patterns must be plain string literals for Vite, so the extension lists are repeated.
+const thumbnailImages = import.meta.glob<ImageMetadata>('/src/reviews/*/thumbnail/*.{png,jpg,jpeg,webp,avif,gif,svg,PNG,JPG,JPEG,WEBP,AVIF,GIF,SVG}', {
+	eager: true,
+	import: 'default',
+});
+const thumbnailVideos = import.meta.glob<string>('/src/reviews/*/thumbnail/*.{mp4,webm,mov,m4v,ogv,MP4,WEBM,MOV,M4V,OGV}', {
+	eager: true,
+	query: '?url',
+	import: 'default',
+});
+const pictureImages = import.meta.glob<ImageMetadata>('/src/reviews/*/pictures/*.{png,jpg,jpeg,webp,avif,gif,svg,PNG,JPG,JPEG,WEBP,AVIF,GIF,SVG}', {
+	eager: true,
+	import: 'default',
+});
+const pictureVideos = import.meta.glob<string>('/src/reviews/*/pictures/*.{mp4,webm,mov,m4v,ogv,MP4,WEBM,MOV,M4V,OGV}', {
+	eager: true,
+	query: '?url',
+	import: 'default',
+});
+
+/** An image (optimized by Astro) or a video (played muted, looping, without controls). */
+export type ReviewMedia = { type: 'image'; image: ImageMetadata } | { type: 'video'; src: string };
 
 export interface Review {
 	/** Folder name, used as the URL: /reviews/<slug>/ */
@@ -34,7 +55,9 @@ export interface Review {
 	date: string;
 	/** Human readable date, e.g. "October 24, 2026". */
 	dateLabel: string;
-	thumbnail: ImageMetadata;
+	thumbnail: ReviewMedia;
+	/** Extra images/videos from the pictures/ folder, in alphabetical order by file name. May be empty. */
+	pictures: ReviewMedia[];
 	/** The rendered markdown. */
 	Content: MarkdownInstance<Record<string, unknown>>['Content'];
 	/** True when the markdown starts its own "# Title", so pages shouldn't add a second one. */
@@ -65,6 +88,34 @@ function bySlug<T>(files: Record<string, T>): Map<string, Found<T>[]> {
 		grouped.set(slug, [...(grouped.get(slug) ?? []), { file, value: files[path] }]);
 	}
 	return grouped;
+}
+
+/** Images and videos from the same kind of folder, merged and grouped by review folder. */
+function mediaBySlug(
+	images: Record<string, ImageMetadata>,
+	videos: Record<string, string>,
+): Map<string, Found<ReviewMedia>[]> {
+	const merged = new Map<string, Found<ReviewMedia>[]>();
+	const add = (grouped: Map<string, Found<ReviewMedia>[]>) => {
+		for (const [slug, items] of grouped) merged.set(slug, [...(merged.get(slug) ?? []), ...items]);
+	};
+	add(
+		new Map(
+			[...bySlug(images)].map(([slug, items]) => [
+				slug,
+				items.map(({ file, value }): Found<ReviewMedia> => ({ file, value: { type: 'image', image: value } })),
+			]),
+		),
+	);
+	add(
+		new Map(
+			[...bySlug(videos)].map(([slug, items]) => [
+				slug,
+				items.map(({ file, value }): Found<ReviewMedia> => ({ file, value: { type: 'video', src: value } })),
+			]),
+		),
+	);
+	return merged;
 }
 
 /** Exactly one of something per folder, with a helpful error otherwise. */
@@ -114,7 +165,8 @@ function summarize(markdown: string, fallback: string, maxLength = 160): string 
 export function getReviews(): Review[] {
 	const markdown = bySlug(markdownFiles);
 	const dates = bySlug(dateFiles);
-	const thumbnails = bySlug(thumbnailFiles);
+	const thumbnails = mediaBySlug(thumbnailImages, thumbnailVideos);
+	const pictures = mediaBySlug(pictureImages, pictureVideos);
 	// A folder counts as a review as soon as it has any one of the three pieces,
 	// so a half-finished folder gets a clear error instead of silently vanishing.
 	const slugs = new Set([...markdown.keys(), ...dates.keys(), ...thumbnails.keys()]);
@@ -131,9 +183,9 @@ export function getReviews(): Review[] {
 			expected: 'a date.txt file',
 		}).trim();
 		const thumbnail = expectOne(thumbnails.get(slug), slug, {
-			missing: 'a thumbnail image',
-			many: 'thumbnail images',
-			expected: 'one png/jpg/webp/avif/gif/svg inside a thumbnail folder',
+			missing: 'a thumbnail image or video',
+			many: 'thumbnail files',
+			expected: 'one image (png/jpg/webp/avif/gif/svg) or video (mp4/webm/mov) inside a thumbnail folder',
 		});
 
 		if (!/^\d{4}-\d{2}-\d{2}$/.test(rawDate) || Number.isNaN(new Date(rawDate).getTime())) {
@@ -148,6 +200,11 @@ export function getReviews(): Review[] {
 			date: rawDate,
 			dateLabel: dateFormat.format(new Date(rawDate)),
 			thumbnail,
+			pictures: (pictures.get(slug) ?? [])
+				// Skip macOS "._" metadata files that can ride along on external drives.
+				.filter((picture) => !picture.file.split('/').pop()!.startsWith('._'))
+				.sort((a, b) => a.file.localeCompare(b.file, 'en', { numeric: true, sensitivity: 'base' }))
+				.map((picture) => picture.value),
 			Content: post.Content,
 			hasTitleHeading: Boolean(title),
 			description: summarize(post.rawContent(), `A review of ${title || humanize(slug)}.`),

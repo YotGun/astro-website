@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import type { InferGetStaticPropsType } from 'astro';
+import ReviewMedia from '../../components/ReviewMedia.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { SITE_TITLE } from '../../consts';
 import { getReviews } from '../../lib/reviews';
@@ -25,14 +25,25 @@ const { Content } = review;
 	</a>
 
 	<div class="review__layout">
-		<aside class="review__aside" data-reveal>
+		<aside class:list={['review__aside', { 'review__aside--tall': review.pictures.length > 0 }]} data-reveal>
 			<div class="review__cover fx-lift">
-				<Image src={review.thumbnail} alt="" width={1000} loading="eager" decoding="async" />
+				<ReviewMedia media={review.thumbnail} width={1000} loading="eager" />
 			</div>
 			<p class="review__posted">
 				<span class="review__posted-label">Posted</span>
 				<time datetime={review.date}>{review.dateLabel}</time>
 			</p>
+			{
+				review.pictures.length > 0 && (
+					<div class="review__pictures">
+						{review.pictures.map((picture) => (
+							<div class="review__picture fx-lift">
+								<ReviewMedia media={picture} width={1000} loading="lazy" />
+							</div>
+						))}
+					</div>
+				)
+			}
 		</aside>
 
 		<article class="review__article" data-reveal="fade">
@@ -98,7 +109,7 @@ const { Content } = review;
 		box-shadow: 0 30px 60px -32px var(--glow);
 	}
 
-	.review__cover :global(img) {
+	.review__cover :global(:is(img, video)) {
 		display: block;
 		width: 100%;
 		height: 100%;
@@ -127,6 +138,33 @@ const { Content } = review;
 
 	.review__posted-label {
 		opacity: 0.7;
+	}
+
+	/* ---------- Extra pictures ---------- */
+
+	/* A sticky column taller than the screen would hide its bottom, so let it scroll normally. */
+	.review__aside--tall {
+		position: static;
+	}
+
+	.review__pictures {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+
+	.review__picture {
+		overflow: hidden;
+		border: 1px solid var(--surface-border);
+		border-radius: 12px;
+		background: #140e18;
+	}
+
+	.review__picture :global(:is(img, video)) {
+		display: block;
+		width: 100%;
+		height: auto;
 	}
 
 	/* ---------- Markdown ---------- */
