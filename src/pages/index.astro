@@ -26,6 +26,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					<img src="/icons/email.svg" alt="Email" class="email-icon">
 				</a>
 			</div>
+			{/* The reveal sits on the wrapper so the button's own hover lift isn't overridden. */}
+			<div class="hero-cta" data-reveal="fade">
+				<a href="/reviews" class="btn fx-spotlight hero-cta__btn" data-spotlight>
+					<span>Read my reviews</span>
+					<span class="hero-cta__arrow" aria-hidden="true">→</span>
+				</a>
+			</div>
 		</div>
 	</main>
 	<div class="curtain-sizer" aria-hidden="true"></div>
@@ -123,7 +130,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		display: block;
 		width: 100%;
 		height: auto;
-		max-height: min(46vh, 26rem);
+		/* The last term makes the photo give up height on shorter screens so the
+		   name, icons and Reviews button always fit in the 100dvh hero. */
+		max-height: min(46vh, 26rem, calc(100dvh - 27rem));
 		aspect-ratio: 3 / 2;
 		object-fit: cover;
 		margin-inline: auto;
@@ -193,7 +202,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	.links {
-		margin-top: 3rem;
+		margin-top: clamp(1rem, 5vh, 3rem);
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -285,6 +294,27 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		opacity: 1;
 	}
 
+	/* Link to /reviews. Shape, colors and hover come from .btn (global.css). */
+	.hero-cta {
+		margin-top: clamp(0.75rem, 2.5vh, 1.5rem);
+	}
+
+	.hero-cta__btn {
+		padding: 0.7rem 1.4rem;
+		font-family: 'JetBrains Mono Bold', monospace;
+		font-size: 0.95rem;
+		color: var(--text);
+	}
+
+	.hero-cta__arrow {
+		display: inline-block;
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+
+	.hero-cta__btn:is(:hover, :focus-visible) .hero-cta__arrow {
+		transform: translateX(4px);
+	}
+
 	.content-section {
 		display: flex;
 		align-items: center;
@@ -370,6 +400,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		.links {
 			margin-top: 1.25rem;
 		}
+
+		.hero-cta {
+			margin-top: 1.25rem;
+		}
 	}
 
 	@media (max-height: 520px) {
@@ -381,7 +415,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		}
 
 		.hero-media img {
-			max-height: min(32vh, 10.5rem);
+			max-height: min(26vh, 9.5rem);
 		}
 
 		.hero-name {
@@ -390,6 +424,15 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 		.links {
 			margin-top: 0.9rem;
+		}
+
+		.hero-cta {
+			margin-top: 0.7rem;
+		}
+
+		.hero-cta__btn {
+			padding: 0.5rem 1.1rem;
+			font-size: 0.85rem;
 		}
 	}
 
@@ -464,6 +507,14 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.hero-cta__arrow {
+			transition: none;
+		}
+
+		.hero-cta__btn:is(:hover, :focus-visible) .hero-cta__arrow {
+			transform: none;
+		}
+
 		main {
 			position: relative;
 			height: auto;

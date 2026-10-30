@@ -14,12 +14,14 @@ const homeAnchor = (hash: string) => (isHome ? hash : `/${hash}`);
 const isCurrent = (href: string) =>
 	href.startsWith('/') && !href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
 
+// `always` links stay in the header on narrow / portrait screens, where the
+// rest of the nav is hidden to make room.
 const navItems = [
-	{ label: 'About', href: homeAnchor('#about') },
-	{ label: 'Project 1', href: homeAnchor('#project1') },
-	{ label: 'Project 2', href: homeAnchor('#project2') },
-	{ label: 'Repository', href: '#repo' },
-	{ label: 'Reviews', href: '/reviews' },
+	{ label: 'About', href: homeAnchor('#about'), always: false },
+	{ label: 'Project 1', href: homeAnchor('#project1'), always: false },
+	{ label: 'Project 2', href: homeAnchor('#project2'), always: false },
+	{ label: 'Repository', href: '#repo', always: false },
+	{ label: 'Reviews', href: '/reviews', always: true },
 ];
 ---
 
@@ -31,7 +33,7 @@ const navItems = [
 			<ul class="site-header__nav-list">
 				{
 					navItems.map((item) => (
-						<li>
+						<li class:list={['site-header__nav-item', { 'site-header__nav-item--always': item.always }]}>
 							<a
 								href={item.href}
 								class="site-header__nav-link"
@@ -58,9 +60,16 @@ const navItems = [
 </header>
 
 <style>
+	/* Portrait (phones): there is only room for the "always" links, so Reviews
+	   stays between the logo and the login button and the rest are hidden. */
 	@media (orientation: portrait) {
-		.site-header__nav {
+		.site-header__nav-item:not(.site-header__nav-item--always) {
 			display: none;
+		}
+
+		/* A slightly larger tap target than the cramped desktop-size link. */
+		.site-header__nav-item--always .site-header__nav-link {
+			padding: 0.55rem 0.7rem;
 		}
 	}
 </style>
