@@ -1,8 +1,9 @@
 <footer class="site-footer" id="repo">
-	<div class="site-footer__inner">
+	<div class="site-footer__inner" data-reveal="fade">
 		<div class="site-footer__rule" aria-hidden="true"></div>
 		<a
-			class="site-footer__repo"
+			class="btn fx-spotlight site-footer__repo"
+			data-spotlight
 			href="https://github.com/YotGun/astro-website"
 			target="_blank"
 			rel="noopener noreferrer"
@@ -31,37 +32,15 @@
 	}
 
 	.site-footer__rule {
-        margin-bottom: 5vw;
+		margin-bottom: 5vw;
 		width: 90vw;
 		height: 1px;
 		background: rgba(255, 255, 255, 0.18);
 	}
 
+	/* Shape, colors and hover come from .btn; this only sets the font. */
 	.site-footer__repo {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.55rem;
-		padding: 0.5rem 1.125rem;
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.875rem;
-		font-weight: 500;
-		line-height: 1;
-		color: var(--text-muted);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 8px;
-		background: transparent;
-		transition:
-			color 0.15s ease,
-			background-color 0.15s ease,
-			border-color 0.15s ease;
-	}
-
-	.site-footer__repo:hover {
-		color: var(--text);
-		background-color: rgba(255, 255, 255, 0.04);
-		border-color: rgba(255, 255, 255, 0.16);
-        opacity: 1;
 	}
 
 	.site-footer__icon {

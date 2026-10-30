@@ -1,0 +1,66 @@
+---
+/**
+ * Shell for ordinary pages (reviews, 404): the shared background glows, spacing
+ * under the fixed header, a centered content column and the footer. The home
+ * page has its own curtain layout and doesn't use this.
+ *
+ * `center` vertically and horizontally centers the content (used by the 404).
+ */
+import Layout from './Layout.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	center?: boolean;
+}
+
+const { title, description, center = false } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+	<div class="page">
+		<main class:list={['page__main', { 'page__main--center': center }]}>
+			<div class="page__inner">
+				<slot />
+			</div>
+		</main>
+		<Footer />
+	</div>
+</Layout>
+
+<style>
+	.page {
+		display: flex;
+		flex-direction: column;
+		min-height: 100dvh;
+		/* On the wrapper (not <main>) so the glows run behind the footer too, and
+		   with no opaque background of its own the page-wide grain shows through
+		   as one even layer. */
+		background:
+			radial-gradient(ellipse 70% 40% at 90% 4%, rgba(65, 29, 79, 0.6) 0%, transparent 75%),
+			radial-gradient(ellipse 60% 38% at 6% 48%, rgba(26, 107, 92, 0.32) 0%, transparent 75%),
+			radial-gradient(ellipse 70% 40% at 94% 92%, rgba(140, 42, 58, 0.3) 0%, transparent 75%);
+	}
+
+	.page__main {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		padding: clamp(6.5rem, 14vh, 8.5rem) clamp(1.25rem, 5vw, 4.5rem) clamp(3rem, 8vh, 5rem);
+	}
+
+	.page__inner {
+		width: min(100%, 72rem);
+		margin-inline: auto;
+	}
+
+	.page__main--center {
+		justify-content: center;
+		padding-block: 5.5rem 2rem;
+	}
+
+	.page__main--center .page__inner {
+		text-align: center;
+	}
+</style>

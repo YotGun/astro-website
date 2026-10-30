@@ -1,0 +1,69 @@
+---
+/**
+ * Site-wide motion. Loaded once by Layout.astro, so every page gets it.
+ * The styles live in styles/global.css; this is just the behaviour:
+ *
+ *  - data-reveal     elements fade/rise in as they scroll into view. Elements that
+ *                    show up together are staggered. Variants: "fade", "line".
+ *  - data-reveal-gate="some-class"
+ *                    hold the reveal until <html> has that class (used by the home
+ *                    page so content waits until the hero curtain starts lifting).
+ *                    Dispatch `reveal:recheck` on window after adding the class.
+ *  - data-spotlight  feeds the cursor position to .fx-spotlight elements.
+ */
+---
+
+<!-- Runs before the rest of the page is parsed, so animations never flash. -->
+<script is:inline>
+	document.documentElement.classList.add('js');
+</script>
+
+<script>
+	const root = document.documentElement;
+
+	const gateOpen = (el: HTMLElement) => {
+		const gate = el.dataset.revealGate;
+		return !gate || root.classList.contains(gate);
+	};
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			let order = 0;
+			for (const entry of entries) {
+				const el = entry.target as HTMLElement;
+				if (!entry.isIntersecting || !gateOpen(el)) continue;
+				el.style.animationDelay = `${Math.min(order++ * 90, 600)}ms`;
+				el.classList.add('is-visible');
+				observer.unobserve(el);
+			}
+		},
+		// threshold 0 so very tall elements (long reviews) still reveal.
+		{ threshold: 0, rootMargin: '0px 0px -6% 0px' },
+	);
+
+	const pending = () => document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-visible)');
+
+	pending().forEach((el) => observer.observe(el));
+
+	// Re-observing makes the browser report current intersections again, which is
+	// how gated elements get a second chance once their gate opens.
+	window.addEventListener('reveal:recheck', () => {
+		pending().forEach((el) => {
+			observer.unobserve(el);
+			observer.observe(el);
+		});
+	});
+
+	document.addEventListener(
+		'pointermove',
+		(event) => {
+			if (event.pointerType !== 'mouse') return;
+			const el = (event.target as Element | null)?.closest<HTMLElement>('[data-spotlight]');
+			if (!el) return;
+			const rect = el.getBoundingClientRect();
+			el.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+			el.style.setProperty('--my', `${event.clientY - rect.top}px`);
+		},
+		{ passive: true },
+	);
+</script>

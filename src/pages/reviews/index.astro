@@ -1,0 +1,230 @@
+---
+import { Image } from 'astro:assets';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_TITLE } from '../../consts';
+import { getReviews } from '../../lib/reviews';
+
+// Newest first (see src/lib/reviews.ts). Content lives in src/reviews/<url>/.
+const reviews = getReviews();
+
+const title = `Reviews | ${SITE_TITLE}`;
+const description = "My own reviews of products and anything else I've tried.";
+---
+
+<PageLayout title={title} description={description}>
+	<h1 class="reviews__title" data-reveal>Reviews</h1>
+	<p class="reviews__subtitle" data-reveal>Products and other things I've tried. No particular category.</p>
+	<div class="reviews__rule" data-reveal="line" aria-hidden="true"></div>
+
+	{
+		reviews.length === 0 ? (
+			<p class="reviews__empty" data-reveal>No reviews yet. Check back soon!</p>
+		) : (
+			<ul class="reviews__grid" role="list">
+				{reviews.map((review, index) => (
+					<li class="reviews__item" data-reveal>
+						<a
+							class="review-card fx-lift"
+							data-spotlight
+							href={`/reviews/${review.slug}/`}
+						>
+							<div class="review-card__media">
+								<Image
+									src={review.thumbnail}
+									alt=""
+									width={800}
+									loading={index < 6 ? 'eager' : 'lazy'}
+									decoding="async"
+								/>
+							</div>
+							<div class="review-card__body">
+								<h2 class="review-card__title">{review.title}</h2>
+								<div class="review-card__meta">
+									<time class="review-card__date" datetime={review.date}>
+										{review.dateLabel}
+									</time>
+									<span class="review-card__arrow" aria-hidden="true">
+										→
+									</span>
+								</div>
+							</div>
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</PageLayout>
+
+<style>
+	/* ---------- Intro ---------- */
+
+	.reviews__title {
+		margin: 0 0 0.7rem;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: clamp(2rem, 4.4vw, 3.4rem);
+		font-style: italic;
+		font-weight: 400;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+		color: var(--text);
+	}
+
+	.reviews__subtitle {
+		margin: 0;
+		font-family: 'JetBrains Mono Thin', monospace;
+		font-size: clamp(0.92rem, 1.2vw, 1.1rem);
+		line-height: 1.6;
+		color: var(--text-muted);
+	}
+
+	.reviews__rule {
+		height: 1px;
+		margin: 1.75rem 0 2.5rem;
+		background: linear-gradient(90deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.04));
+	}
+
+	.reviews__empty {
+		font-family: 'JetBrains Mono Thin', monospace;
+		color: var(--text-muted);
+	}
+
+	/* ---------- Grid ---------- */
+
+	.reviews__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+		gap: clamp(1.1rem, 2.4vw, 1.75rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.reviews__item {
+		display: flex;
+	}
+
+	/* ---------- Card ----------
+	   Lift, glow and cursor spotlight come from .fx-lift / .fx-spotlight (global.css). */
+
+	.review-card {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		overflow: hidden;
+		border: 1px solid var(--surface-border);
+		border-radius: 16px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+		box-shadow: 0 12px 30px -20px rgba(0, 0, 0, 0.8);
+	}
+
+	.review-card__media {
+		position: relative;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: #140e18;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	.review-card__media :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.9s var(--ease-out);
+	}
+
+	.review-card__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 0.9rem;
+		padding: 1.15rem 1.3rem 1.3rem;
+	}
+
+	.review-card__title {
+		display: -webkit-box;
+		margin: 0;
+		overflow: hidden;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 1.05rem;
+		font-weight: 400;
+		letter-spacing: -0.01em;
+		line-height: 1.4;
+		color: var(--text);
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+	}
+
+	.review-card__meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: auto;
+	}
+
+	.review-card__date {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: 'JetBrains Mono Thin', monospace;
+		font-size: 0.84rem;
+		letter-spacing: 0.01em;
+		color: var(--text-muted);
+	}
+
+	.review-card__date::before {
+		content: '';
+		flex: none;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 10px var(--accent-glow);
+	}
+
+	.review-card__arrow {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 1rem;
+		line-height: 1;
+		color: var(--text-muted);
+		opacity: 0;
+		transform: translateX(-8px);
+		transition:
+			opacity var(--dur-base) ease,
+			transform var(--dur-base) var(--ease-out),
+			color var(--dur-base) ease;
+	}
+
+	.review-card:is(:hover, :focus-visible) .review-card__media :global(img) {
+		transform: scale(1.07);
+	}
+
+	.review-card:is(:hover, :focus-visible) .review-card__arrow {
+		opacity: 1;
+		transform: none;
+		color: var(--text);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.review-card__arrow,
+		.review-card__media :global(img),
+		.review-card__media::after {
+			transition: none !important;
+		}
+
+		.review-card:is(:hover, :focus-visible) .review-card__media :global(img) {
+			transform: none;
+		}
+
+		.review-card:is(:hover, :focus-visible) .review-card__media::after {
+			display: none;
+		}
+
+		.review-card__arrow {
+			transform: none;
+		}
+	}
+</style>

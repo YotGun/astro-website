@@ -200,3 +200,8 @@ dist
 
 ### Astro ###
 .astro/
+
+# Sample reviews
+/src/reviews/sample1/
+/src/reviews/sample2/
+/src/reviews/sample3/

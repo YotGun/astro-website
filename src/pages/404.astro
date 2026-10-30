@@ -1,48 +1,75 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Footer from '../components/Footer.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
-<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<main id="main404">
-		<h1>404 Not Found</h1>
-        <a href="/">Back to Home</a>
-	</main>
-	<Footer />
-</Layout>
+<PageLayout title={SITE_TITLE} description={SITE_DESCRIPTION} center>
+	<div class="not-found">
+		<h1 data-reveal>404 Not Found</h1>
+		<a href="/" data-reveal="fade">Back to Home</a>
+	</div>
+</PageLayout>
 
-<style is:global>
-    #main404 {
-        display: flex;
-        flex-direction: column;
-        height: 100dvh;
-        width: 100dvw;
-        background: var(--bg);
-        justify-content: center;
-        align-items: center;
-        font-family: 'Jetbrains Mono', monospace;
-        font-size: 2rem;
-        color: var(--text);
-        padding-bottom: 3dvh;
-    }
+<style>
+	.not-found {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: clamp(1.25rem, 3vh, 2rem);
+		padding-bottom: 3dvh;
+		font-family: 'JetBrains Mono', monospace;
+		color: var(--text);
+	}
 
-    #main404 a {
-        color: var(--text-muted);
-        transition: color 0.3s ease;
-    }
+	.not-found h1 {
+		margin: 0;
+		font-size: clamp(2.25rem, 8vw, 4rem);
+		line-height: 1.15;
+	}
 
-    #main404 a:hover {
-        color: var(--blue);
-        transition: color 0.3s ease;
-    }
+	.not-found a {
+		position: relative;
+		font-size: clamp(1.15rem, 3.4vw, 2rem);
+		color: var(--text-muted);
+		transition: color var(--dur-base) ease;
+	}
 
-    .site-header__nav {
-        visibility: hidden;
-    }
-    
+	/* Same accent underline sweep as the other text links on the site. */
+	.not-found a::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.25em;
+		left: 0;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent-glow);
+		transform: scaleX(0);
+		transform-origin: left center;
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+
+	.not-found a:hover,
+	.not-found a:focus-visible {
+		color: var(--text);
+	}
+
+	.not-found a:hover::after,
+	.not-found a:focus-visible::after {
+		transform: scaleX(1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.not-found a::after {
+			transition: none;
+		}
+	}
 </style>
 
-<script>
-    document.getElementsByClassName("site-header__logo")[0].href = "/";
-</script>
+<style is:global>
+	/* Carried over from the original 404: the main nav is hidden on this page. */
+	.site-header__nav {
+		visibility: hidden;
+	}
+</style>

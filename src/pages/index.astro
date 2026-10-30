@@ -6,16 +6,16 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<main id="main">
-		<figure class="hero-media">
-			<img src="/images/headerimg.jpeg" alt="" width="960" height="720" />
+		<figure class="hero-media" data-reveal>
+			<img class="fx-lift" src="/images/headerimg.jpeg" alt="" width="960" height="720" />
 		</figure>
 		<div class="hero-copy">
 			<h1>
-				<span class="hero-name">Hey, I'm Regan Ng!</span>
-				<span class="hero-lede">Here you'll find some of the things I've made, or at least tried making.</span>
-				<span class="hero-lede">Site's still a work in progress, so please be nice :D</span>
+				<span class="hero-name" data-reveal="fade">Hey, I'm Regan Ng!</span>
+				<span class="hero-lede" data-reveal="fade">Here you'll find some of the things I've made, or at least tried making.</span>
+				<span class="hero-lede" data-reveal="fade">Site's still a work in progress, so please be nice :D</span>
 			</h1>
-			<div class="links">
+			<div class="links" data-reveal="fade">
 				<a href="https://github.com/YotGun" target="_blank" class="github">
 					<img src="/icons/github.svg" alt="GitHub" class="github-icon">
 				</a>
@@ -30,39 +30,41 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	</main>
 	<div class="curtain-sizer" aria-hidden="true"></div>
 		<div id="page-content">
+		{/* The first section sits behind the hero curtain at load, so its entrance
+		    waits for the curtain to start lifting (data-reveal-gate, see script). */}
 		<section id="about" class="content-section content-section--left">
-			<div class="content-section__copy">
+			<div class="content-section__copy" data-reveal="fade" data-reveal-gate="curtain-open">
 				<h2>About</h2>
 				<p>I am currently a student at the University of Alberta, pursuing a Bachelor of Science in Computing Science with a minor in Mathematics. I came to Edmonton, Canada from Indonesia in 2023, and I've loved every moment of the experience so far. </p>
 				<p>One of the things I've enjoyed most about living here is getting to meet so many friendly people and experiencing a different environment from what I was used to in Jakarta. I also appreciate the much more manageable traffic and accessible public transportation (if you've been to Jakarta, you'll know what I mean).</p>
 				<p>I've also always been interested in technology, both software and hardware, and I enjoy keeping up with new developments. My main passion is software development like modding or creating open source software that people can actually use / find useful. I'm becoming increasingly interested in cybersecurity especially when AI keeps getting better at breaking through security measures.</p>
 			</div>
-			<figure class="content-section__media">
-				<img src="/images/jojizoom.jpeg" alt="" width="960" height="720" />
+			<figure class="content-section__media" data-reveal data-reveal-gate="curtain-open">
+				<img class="fx-lift" src="/images/jojizoom.jpeg" alt="" width="960" height="720" />
 			</figure>
 		</section>
 		<section id="project1" class="content-section content-section--right">
-			<div class="content-section__copy">
+			<div class="content-section__copy" data-reveal="fade">
 				<h2>Project 1 - Personal Vault</h2>
 				<p>One of my personal projects is a private, webapp (the login button in the top right corner) that I built to write and store my notes, files, images, and lecture videos in one place. Before this, I relied on Obsidian but syncing them across devices was a pain if I did not want to pay a subscription fee. Building this on the web meant that I can always have my notes ready whether I'm on macOS or Windows.</p>
 				<p>The application is built with Astro and Cloudflare Workers, with Cloudflare D1 used for storing notes and R2 used for file storage. The webapp is actually very simple, anyone can basically clone the repo without much tinkering since Cloudflare Access handles the privacy stuff. All you need is your own domain and the Cloudflare free tier is completely sufficient for individual work. I was initially planning on making it publicly accessible but the amount of worker calls would've ended up costing me money.</p>
 				<p>To be completely honest, I'm not a very creative person in terms of UI work so I let Cursor polish the front end to make it look pretty lol.</p>
 			</div>
-			<figure class="content-section__media">
-				<video src="/videos/appdemo.mp4" width="1920" height="1080" autoplay muted loop playsinline>
+			<figure class="content-section__media" data-reveal>
+				<video class="fx-lift" src="/videos/appdemo.mp4" width="1920" height="1080" autoplay muted loop playsinline>
 					Your browser does not support the video tag.
 				</video>
 			</figure>
 		</section>
 		<section id="project2" class="content-section content-section--left">
-			<div class="content-section__copy">
+			<div class="content-section__copy" data-reveal="fade">
 				<h2>Project 2 - Evently</h2>
 				<p>Evently is a group project we worked on to develop an Android app for managing events through a lottery-based registration system. The idea was to solve a common problem with popular events when more people want to attend than there are available spots. My team consisted of 6 people and I mainly worked on the event functionality, like creating or signing up for events, drawing winners, etc.</p>
 				<p>The application was developed for Android using Java and Material Design, with Firebase used for authentication and backend functionality. The project implemented features such as Google Sign-In (which was extremely buggy for some reason), Google Maps integration, QR-code-based event access, and Firebase Cloud Functions.</p>
 				<p>This project was definitely a fun one since the TA acted as the client and we had to fulfill their expectations. Our project was also praised as being the most technical and feature complete, with us going the extra mile to make sure everything needs proper authentication.</p>
 			</div>
-			<figure class="content-section__media">
-				<video src="/videos/eventlydemo.mp4" width="1280" height="720" autoplay muted loop playsinline>
+			<figure class="content-section__media" data-reveal>
+				<video class="fx-lift" src="/videos/eventlydemo.mp4" width="1280" height="720" autoplay muted loop playsinline>
 					Your browser does not support the video tag.
 				</video>
 			</figure>
@@ -197,7 +199,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		justify-content: center;
 		align-items: center;
 		gap: 1rem;
-		filter: invert(1);
 	}
 
 	.links a {
@@ -205,18 +206,34 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		flex: 0 0 auto;
 		width: 1.75rem;
 		height: 1.75rem;
-		overflow: hidden;
+		border-radius: 6px;
+		transition: transform var(--dur-base) var(--ease-out);
 	}
 
 	.links a.email {
 		width: auto;
-		overflow: visible;
 	}
 
-	.github:hover, .linkedin:hover {
-		cursor: pointer;
-		filter: brightness(0) saturate(100%) invert(43%) sepia(95%) saturate(2136%) hue-rotate(22deg) brightness(97%) contrast(99%);
-		transition: filter 0.3s ease;
+	/* The icon files are black, so invert them to white. */
+	.links img {
+		filter: invert(1);
+		transition:
+			filter var(--dur-base) ease,
+			opacity var(--dur-base) ease;
+	}
+
+	/* Same lift + accent glow as the rest of the site. */
+	.links a:is(:hover, :focus-visible) {
+		transform: translateY(-3px);
+	}
+
+	.links a:is(:hover, :focus-visible) img {
+		filter: invert(1) drop-shadow(0 0 8px var(--accent-glow));
+	}
+
+	.links a:focus-visible {
+		outline: 2px solid rgba(255, 255, 255, 0.55);
+		outline-offset: 4px;
 	}
 
 	.github-icon, .linkedin-icon, .email-icon {
@@ -239,11 +256,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	.email-icon {
 		width: 1.75rem;
 		height: 1.75rem;
-		transition: opacity 0.3s ease;
 	}
 
 	.email::after {
-		content: "personal@regan.ng";
+		content: "business@regan.ng";
 		position: absolute;
 		left: 0;
 		top: 50%;
@@ -255,17 +271,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		font-weight: 400;
 		line-height: 1;
 		white-space: nowrap;
-		filter: invert(1);
 		color: var(--text);
+		text-shadow: 0 0 12px var(--accent-glow);
 		pointer-events: none;
-		transition: opacity 0.3s ease;
+		transition: opacity var(--dur-base) ease;
 	}
 
-	.email:hover .email-icon {
+	.email:is(:hover, :focus-visible) .email-icon {
 		opacity: 0;
 	}
 
-	.email:hover::after {
+	.email:is(:hover, :focus-visible)::after {
 		opacity: 1;
 	}
 
@@ -489,7 +505,18 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		return window.innerHeight;
 	}
 
+	// Tells the shared scroll-reveal (components/Motion.astro) that the content
+	// under the hero is on show, so elements marked data-reveal-gate="curtain-open"
+	// can play their entrance.
+	function setCurtainOpen(open) {
+		const root = document.documentElement;
+		if (root.classList.contains('curtain-open') === open) return;
+		root.classList.toggle('curtain-open', open);
+		if (open) window.dispatchEvent(new Event('reveal:recheck'));
+	}
+
 	function resetCurtain() {
+		setCurtainOpen(true);
 		document.documentElement.classList.remove('is-curtain-active');
 		if (curtain) {
 			curtain.style.transform = '';
@@ -518,6 +545,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		const y = window.scrollY;
 		const lift = Math.min(y, max);
 		const shift = Math.max(0, y - max);
+
+		setCurtainOpen(y > max * 0.12);
 
 		curtain.style.transform = `translate3d(0, ${-lift}px, 0)`;
 		content.style.transform = `translate3d(0, ${-shift}px, 0)`;

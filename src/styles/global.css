@@ -9,6 +9,18 @@
 	--github: url('/icons/github.svg');
 	--linkedin: url('/icons/linkedin.svg');
 	--email: url('/icons/email.svg');
+
+	/* Motion + effects shared by every page (see the "Motion" section below). */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--dur-fast: 0.2s;
+	--dur-base: 0.35s;
+	--dur-slow: 0.6s;
+	--dur-reveal: 0.85s;
+	--accent: #3fd1b3;
+	--accent-glow: rgba(63, 209, 179, 0.75);
+	--glow: rgba(168, 85, 247, 0.5);
+	--surface-border: rgba(255, 255, 255, 0.09);
+	--surface-border-hover: rgba(255, 255, 255, 0.22);
 }
 
 *,
@@ -45,9 +57,14 @@ a {
 	text-decoration: none;
 }
 
+/* Film grain. body::before is one fixed layer over the whole page. The surfaces
+   below paint their own opaque background (hiding that layer), so they carry
+   their own. Keep this list to elements that are actually positioned: a
+   generic `main::before` is anchored to the viewport instead of <main> on any
+   page where <main> isn't positioned, which doubles the grain and cuts off. */
 body::before,
 .site-header::before,
-main::before,
+#main::before,
 #page-content::before {
 	content: "";
 	position: absolute;
@@ -118,6 +135,193 @@ body::before {
 	font-display: swap;
 }
 
+/* ==========================================================================
+   Motion + effects, shared by every page
+   [data-reveal]   scroll-in entrance (script: components/Motion.astro)
+   .fx-lift        rises and glows on hover / keyboard focus
+   .fx-spotlight   soft light that follows the cursor ([data-spotlight])
+   .btn            the outlined button used in the header and footer
+   ========================================================================== */
+
+/* Entrance. Nothing is hidden unless JS added html.js, so a failed script never
+   leaves an empty page. Variants: (default) rise + settle, "fade" for text and
+   very tall blocks, "line" for rules that draw in. */
+html.js [data-reveal] {
+	animation: reveal-up var(--dur-reveal) var(--ease-out) both paused;
+}
+
+html.js [data-reveal='fade'] {
+	animation-name: reveal-fade;
+}
+
+html.js [data-reveal='line'] {
+	animation-name: reveal-line;
+	transform-origin: left center;
+}
+
+html.js [data-reveal].is-visible {
+	animation-play-state: running;
+}
+
+@keyframes reveal-up {
+	from {
+		opacity: 0;
+		transform: translateY(28px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes reveal-fade {
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes reveal-line {
+	from {
+		opacity: 0;
+		transform: scaleX(0);
+	}
+	to {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+}
+
+/* Hover: the surface lifts, its border brightens and a purple glow blooms. */
+.fx-lift {
+	transition:
+		transform var(--dur-slow) var(--ease-out),
+		border-color var(--dur-base) ease,
+		box-shadow var(--dur-slow) var(--ease-out);
+}
+
+.fx-lift:focus-visible {
+	transform: translateY(-6px);
+	border-color: var(--surface-border-hover);
+	box-shadow:
+		0 30px 50px -24px var(--glow),
+		0 12px 30px -18px rgba(0, 0, 0, 0.8);
+	outline: 2px solid rgba(255, 255, 255, 0.55);
+	outline-offset: 4px;
+}
+
+@media (hover: hover) {
+	.fx-lift:hover {
+		transform: translateY(-6px);
+		border-color: var(--surface-border-hover);
+		box-shadow:
+			0 30px 50px -24px var(--glow),
+			0 12px 30px -18px rgba(0, 0, 0, 0.8);
+	}
+}
+
+/* Hover: a soft light under the cursor. --mx / --my are set by Motion.astro. */
+.fx-spotlight {
+	--mx: 50%;
+	--my: 50%;
+	position: relative;
+}
+
+.fx-spotlight::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	border-radius: inherit;
+	pointer-events: none;
+	opacity: 0;
+	background: radial-gradient(
+		340px circle at var(--mx) var(--my),
+		rgba(255, 255, 255, 0.11),
+		transparent 62%
+	);
+	transition: opacity var(--dur-base) ease;
+}
+
+.fx-spotlight:focus-visible::before {
+	opacity: 1;
+}
+
+@media (hover: hover) {
+	.fx-spotlight:hover::before {
+		opacity: 1;
+	}
+}
+
+.btn {
+	display: inline-flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+	padding: 0.5rem 1.125rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1;
+	color: var(--text-muted);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+	background: transparent;
+	transition:
+		color var(--dur-fast) ease,
+		background-color var(--dur-fast) ease,
+		border-color var(--dur-fast) ease,
+		transform var(--dur-base) var(--ease-out),
+		box-shadow var(--dur-base) var(--ease-out);
+}
+
+.btn:focus-visible {
+	color: var(--text);
+	background-color: rgba(255, 255, 255, 0.04);
+	border-color: var(--surface-border-hover);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 24px -14px var(--glow);
+	outline: 2px solid rgba(255, 255, 255, 0.55);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) {
+	.btn:hover {
+		color: var(--text);
+		background-color: rgba(255, 255, 255, 0.04);
+		border-color: var(--surface-border-hover);
+		transform: translateY(-2px);
+		box-shadow: 0 10px 24px -14px var(--glow);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	html.js [data-reveal] {
+		animation: none !important;
+	}
+
+	.fx-lift,
+	.btn,
+	.site-header__nav-link::after {
+		transition: none !important;
+	}
+
+	.fx-lift:hover,
+	.fx-lift:focus-visible,
+	.btn:hover,
+	.btn:focus-visible {
+		transform: none;
+	}
+}
+
 .site-header {
 	position: fixed;
 	top: 0;
@@ -148,7 +352,7 @@ body::before {
 	color: var(--text);
 	white-space: nowrap;
 	flex-shrink: 0;
-	transition: opacity 0.15s ease;
+	transition: opacity var(--dur-fast) ease;
 }
 
 .site-header__logo:hover {
@@ -174,6 +378,7 @@ body::before {
 }
 
 .site-header__nav-link {
+	position: relative;
 	padding: 0.5rem clamp(0.55rem, 1.15vw, 1.4rem);
 	font-size: 0.9rem;
 	font-weight: 500;
@@ -182,41 +387,46 @@ body::before {
 	border-radius: 6px;
 	white-space: nowrap;
 	transition:
-		color 0.15s ease,
-		background-color 0.15s ease;
+		color var(--dur-fast) ease,
+		background-color var(--dur-fast) ease;
 }
 
-.site-header__nav-link:hover {
+/* Small accent dash that grows in under the hovered / current link. */
+.site-header__nav-link::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0.08rem;
+	width: 1.1rem;
+	height: 2px;
+	margin-left: -0.55rem;
+	border-radius: 2px;
+	background: var(--accent);
+	box-shadow: 0 0 8px var(--accent-glow);
+	transform: scaleX(0);
+	transition: transform var(--dur-base) var(--ease-out);
+}
+
+.site-header__nav-link:hover,
+.site-header__nav-link:focus-visible {
 	color: var(--text);
 	background-color: rgba(255, 255, 255, 0.04);
 }
 
+.site-header__nav-link:hover::after,
+.site-header__nav-link:focus-visible::after,
+.site-header__nav-link[aria-current='page']::after {
+	transform: scaleX(1);
+}
+
+.site-header__nav-link[aria-current='page'] {
+	color: var(--text);
+	background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Shape, colors and hover come from .btn; this only sets the font. */
 .site-header__login-btn {
-	display: inline-flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	justify-content: center;
-	gap: 0.55rem;
-	padding: 0.5rem 1.125rem;
 	font-family: 'JetBrains Mono Bold', monospace;
-	font-size: 0.875rem;
-	font-weight: 500;
-	line-height: 1;
-	color: var(--text-muted);
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 8px;
-	background: transparent;
-	transition:
-		color 0.15s ease,
-		background-color 0.15s ease,
-		border-color 0.15s ease;
-}
-
-.site-header__login-btn:hover {
-	color: var(--text);
-	background-color: rgba(255, 255, 255, 0.04);
-	border-color: rgba(255, 255, 255, 0.16);
-	opacity: 1;
 }
 
 @media (max-width: 720px) {

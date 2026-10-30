@@ -1,31 +1,57 @@
 ---
 import { APP_URL } from '../consts';
 
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isHome = pathname === '/';
+
+// The About/Project sections only exist on the home page, so on any other
+// page those links need to point back to it. (#repo is the footer, which
+// every page includes, so it stays a plain in-page anchor.)
+const homeAnchor = (hash: string) => (isHome ? hash : `/${hash}`);
+
+// Highlight a page link when we're on it or on any page beneath it
+// (so "Reviews" stays lit on /reviews/some-review too).
+const isCurrent = (href: string) =>
+	href.startsWith('/') && !href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
+
 const navItems = [
-	{ label: 'About', href: '#about' },
-	{ label: 'Project 1', href: '#project1' },
-	{ label: 'Project 2', href: '#project2' },
+	{ label: 'About', href: homeAnchor('#about') },
+	{ label: 'Project 1', href: homeAnchor('#project1') },
+	{ label: 'Project 2', href: homeAnchor('#project2') },
 	{ label: 'Repository', href: '#repo' },
+	{ label: 'Reviews', href: '/reviews' },
 ];
 ---
 
 <header class="site-header">
 	<div class="site-header__inner">
-		<a href="#" class="site-header__logo">regan.ng</a>
+		<a href={isHome ? '#' : '/'} class="site-header__logo">regan.ng</a>
 
 		<nav class="site-header__nav" aria-label="Main">
 			<ul class="site-header__nav-list">
 				{
 					navItems.map((item) => (
 						<li>
-							<a href={item.href} class="site-header__nav-link">{item.label}</a>
+							<a
+								href={item.href}
+								class="site-header__nav-link"
+								aria-current={isCurrent(item.href) ? 'page' : undefined}
+							>
+								{item.label}
+							</a>
 						</li>
 					))
 				}
 			</ul>
 		</nav>
 
-		<a href={APP_URL} class="site-header__login-btn" target="_blank" rel="noopener noreferrer">
+		<a
+			href={APP_URL}
+			class="btn fx-spotlight site-header__login-btn"
+			data-spotlight
+			target="_blank"
+			rel="noopener noreferrer"
+		>
 			App Login
 		</a>
 	</div>
