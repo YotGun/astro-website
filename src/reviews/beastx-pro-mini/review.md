@@ -1,1 +1,0 @@
-# WLMouse BeastX Pro Mini
