@@ -365,10 +365,18 @@ html.js [data-reveal].is-visible {
 	justify-content: center;
 	align-items: center;
 	min-width: 0;
+	/* Backstop so the links can never paint over the logo or login button.
+	   Header.astro hides the lowest-priority links before anything gets clipped.
+	   The vertical padding (cancelled by the negative margin) keeps focus rings visible. */
+	overflow: hidden;
+	padding-block: 6px;
+	margin-block: -6px;
 }
 
 .site-header__nav-list {
 	display: flex;
+	flex: none;
+	width: max-content;
 	align-items: center;
 	justify-content: center;
 	gap: clamp(0.5rem, 2.4vw, 3.5rem);
@@ -426,6 +434,8 @@ html.js [data-reveal].is-visible {
 
 /* Shape, colors and hover come from .btn; this only sets the font. */
 .site-header__login-btn {
+	flex: none;
+	white-space: nowrap;
 	font-family: 'JetBrains Mono Bold', monospace;
 }
 

@@ -16,12 +16,15 @@ const isCurrent = (href: string) =>
 
 // `always` links stay in the header on narrow / portrait screens, where the
 // rest of the nav is hidden to make room.
+// `priority` decides what gets dropped first when the links don't fit between
+// the logo and the login button: the highest number goes first (see the script
+// below). The logo and login button are never dropped.
 const navItems = [
-	{ label: 'About', href: homeAnchor('#about'), always: false },
-	{ label: 'Project 1', href: homeAnchor('#project1'), always: false },
-	{ label: 'Project 2', href: homeAnchor('#project2'), always: false },
-	{ label: 'Repository', href: '#repo', always: false },
-	{ label: 'Reviews', href: '/reviews', always: true },
+	{ label: 'About', href: homeAnchor('#about'), always: false, priority: 2 },
+	{ label: 'Project 1', href: homeAnchor('#project1'), always: false, priority: 3 },
+	{ label: 'Project 2', href: homeAnchor('#project2'), always: false, priority: 4 },
+	{ label: 'Repository', href: '#repo', always: false, priority: 5 },
+	{ label: 'Reviews', href: '/reviews', always: true, priority: 1 },
 ];
 ---
 
@@ -29,11 +32,14 @@ const navItems = [
 	<div class="site-header__inner">
 		<a href={isHome ? '#' : '/'} class="site-header__logo">regan.ng</a>
 
-		<nav class="site-header__nav" aria-label="Main">
+		<nav class="site-header__nav" aria-label="Main" data-header-nav>
 			<ul class="site-header__nav-list">
 				{
 					navItems.map((item) => (
-						<li class:list={['site-header__nav-item', { 'site-header__nav-item--always': item.always }]}>
+						<li
+							class:list={['site-header__nav-item', { 'site-header__nav-item--always': item.always }]}
+							data-priority={item.priority}
+						>
 							<a
 								href={item.href}
 								class="site-header__nav-link"
@@ -58,6 +64,35 @@ const navItems = [
 		</a>
 	</div>
 </header>
+
+<script>
+	// Keeps the nav from colliding with the logo and the login button: whenever the
+	// links are wider than the space between them, drop the lowest-priority link
+	// (highest data-priority number) until everything that's left fits.
+	const nav = document.querySelector<HTMLElement>('[data-header-nav]');
+	const list = nav?.querySelector<HTMLElement>('ul');
+
+	if (nav && list) {
+		const items = [...list.querySelectorAll<HTMLElement>('[data-priority]')].sort(
+			(a, b) => Number(b.dataset.priority) - Number(a.dataset.priority),
+		);
+
+		const fit = () => {
+			for (const item of items) item.hidden = false;
+			for (const item of items) {
+				if (list.getBoundingClientRect().width <= nav.clientWidth + 0.5) break;
+				// Items already hidden by CSS (portrait) take no space, so skip them.
+				if (item.offsetParent === null) continue;
+				item.hidden = true;
+			}
+		};
+
+		fit();
+		new ResizeObserver(fit).observe(nav);
+		// Link widths change once the web fonts have loaded.
+		document.fonts?.ready.then(fit);
+	}
+</script>
 
 <style>
 	/* Portrait (phones): there is only room for the "always" links, so Reviews

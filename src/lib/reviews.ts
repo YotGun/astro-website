@@ -6,6 +6,9 @@ import type { ImageMetadata, MarkdownInstance } from 'astro';
  *   src/reviews/<url>/
  *     review.md        the review text (any single .md file works)
  *     date.txt         the date posted, as YYYY-MM-DD
+ *     rating.txt       optional. Line 1: rating from 0 to 10 (halves allowed, e.g. 8.5),
+ *                      shown as hearts. Line 2: price in CAD, e.g. 29.99 (any size),
+ *                      shown beside the hearts. Both appear in the grid and on the review page.
  *     thumbnail/       exactly one image (png, jpg, webp, avif, gif or svg)
  *                      or video (mp4, webm, mov, m4v or ogv)
  *     pictures/        optional extra images/videos, shown under the thumbnail on the
@@ -20,6 +23,11 @@ const markdownFiles = import.meta.glob<MarkdownInstance<Record<string, unknown>>
 	eager: true,
 });
 const dateFiles = import.meta.glob<string>('/src/reviews/*/date.txt', {
+	eager: true,
+	query: '?raw',
+	import: 'default',
+});
+const ratingFiles = import.meta.glob<string>('/src/reviews/*/rating.txt', {
 	eager: true,
 	query: '?raw',
 	import: 'default',
@@ -55,6 +63,10 @@ export interface Review {
 	date: string;
 	/** Human readable date, e.g. "October 24, 2026". */
 	dateLabel: string;
+	/** 0-10 in steps of 0.5 (rounded from line 1 of rating.txt), or null when there isn't one. */
+	rating: number | null;
+	/** Price from line 2 of rating.txt, formatted like "1,299.99 CAD", or null when there isn't one. */
+	price: string | null;
 	thumbnail: ReviewMedia;
 	/** Extra images/videos from the pictures/ folder, in alphabetical order by file name. May be empty. */
 	pictures: ReviewMedia[];
@@ -161,6 +173,47 @@ function summarize(markdown: string, fallback: string, maxLength = 160): string 
 	return `${text.slice(0, maxLength).replace(/\s+\S*$/, '')}…`;
 }
 
+const priceFormat = new Intl.NumberFormat('en-CA', {
+	minimumFractionDigits: 2,
+	maximumFractionDigits: 2,
+});
+
+/**
+ * Parses rating.txt. Line 1 is the rating ("8", "8.5" or "8.5/10"), line 2 is the
+ * price in CAD ("29.99", "1,299.99", "$29.99" or "29.99 CAD"). Either line may be
+ * blank or missing.
+ */
+function parseRatingFile(raw: string | undefined, slug: string): { rating: number | null; price: string | null } {
+	const [ratingLine = '', priceLine = ''] = (raw ?? '').split(/\r?\n/).map((line) => line.trim());
+
+	let rating: number | null = null;
+	if (ratingLine) {
+		const match = ratingLine.match(/^(\d+(?:\.\d+)?)(?:\s*\/\s*10)?$/);
+		const value = match ? Number(match[1]) : NaN;
+		if (!(value >= 0 && value <= 10)) {
+			throw new Error(
+				`[reviews] "${slug}" has an invalid rating "${ratingLine}" on line 1 of rating.txt. Use a number from 0 to 10, e.g. 8.5.`,
+			);
+		}
+		// Hearts come in halves, so snap to the nearest 0.5.
+		rating = Math.round(value * 2) / 2;
+	}
+
+	let price: string | null = null;
+	if (priceLine) {
+		const match = priceLine.match(/^\$?\s*(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?\s*(?:CAD)?$/i);
+		const value = match ? Number(`${match[1].replace(/,/g, '')}${match[2] ?? ''}`) : NaN;
+		if (!Number.isFinite(value)) {
+			throw new Error(
+				`[reviews] "${slug}" has an invalid price "${priceLine}" on line 2 of rating.txt. Use a plain number in CAD, e.g. 29.99 or 1,299.99.`,
+			);
+		}
+		price = `${priceFormat.format(value)} CAD`;
+	}
+
+	return { rating, price };
+}
+
 /** Every review, newest first. */
 export function getReviews(): Review[] {
 	const markdown = bySlug(markdownFiles);
@@ -199,6 +252,7 @@ export function getReviews(): Review[] {
 			title: title || humanize(slug),
 			date: rawDate,
 			dateLabel: dateFormat.format(new Date(rawDate)),
+			...parseRatingFile(ratingFiles[`/${REVIEWS_DIR}/${slug}/rating.txt`], slug),
 			thumbnail,
 			pictures: (pictures.get(slug) ?? [])
 				// Skip macOS "._" metadata files that can ride along on external drives.

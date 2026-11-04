@@ -1,0 +1,43 @@
+---
+/**
+ * Rating out of 10 shown as hearts (public/icons/{full,half,empty}heart.png, 9x9 pixel art).
+ * `rating` is 0-10 in steps of 0.5. `scale` is a whole number so the pixels stay crisp.
+ */
+interface Props {
+	rating: number;
+	scale?: number;
+}
+
+const { rating, scale = 2 } = Astro.props;
+
+const HEARTS = 10;
+const hearts = Array.from({ length: HEARTS }, (_, index) => {
+	if (rating >= index + 1) return 'full';
+	if (rating >= index + 0.5) return 'half';
+	return 'empty';
+});
+
+const label = `Rated ${rating} out of ${HEARTS}`;
+---
+
+<span class="rating" role="img" aria-label={label} title={label} style={`--heart-size: ${9 * scale}px`}>
+	{hearts.map((kind) => <img src={`/icons/${kind}heart.png`} alt="" width={9} height={9} decoding="async" />)}
+</span>
+
+<style>
+	.rating {
+		display: inline-flex;
+		align-items: center;
+		gap: calc(var(--heart-size) / 6);
+		line-height: 0;
+	}
+
+	.rating img {
+		display: block;
+		flex: none;
+		width: var(--heart-size);
+		height: var(--heart-size);
+		/* Keep the 9x9 pixel art sharp instead of blurry when scaled up. */
+		image-rendering: pixelated;
+	}
+</style>
